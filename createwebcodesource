@@ -1,0 +1,355 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { ArrowRight, Globe, Layers, Zap, Cpu, Mail, ArrowUpRight } from 'lucide-react';
+
+/* DEEPGITAL - Portfolio Immersif
+  Architecture : Monolithique (Single File)
+  Style : "Organic Glass" / iOS Native Feel
+*/
+
+const Deepgital = () => {
+  // --- États Globaux ---
+  const [hasOpened, setHasOpened] = useState(false); // État : Intro vs Site
+  const [isMelting, setIsMelting] = useState(false); // Easter Egg (Maintien clic)
+  const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
+  const [hoveredLink, setHoveredLink] = useState(null);
+  
+  // Refs pour la gestion du scroll et des interactions
+  const heroRef = useRef(null);
+  const containerRef = useRef(null);
+
+  // --- Gestion du Curseur Custom ---
+  useEffect(() => {
+    const moveCursor = (e) => {
+      setCursorPos({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener('mousemove', moveCursor);
+    return () => window.removeEventListener('mousemove', moveCursor);
+  }, []);
+
+  // --- Gestion de l'Easter Egg (Melting) ---
+  const handleMouseDown = () => setIsMelting(true);
+  const handleMouseUp = () => setIsMelting(false);
+
+  // --- Déclenchement de l'ouverture ---
+  const handleOpen = () => {
+    if (!hasOpened) {
+      setHasOpened(true);
+    }
+  };
+
+  // --- Données Mockées ---
+  const services = [
+    { title: "Product Design", icon: <Layers size={20} />, desc: "Interfaces natives et systèmes de design scalables." },
+    { title: "Creative Dev", icon: <Cpu size={20} />, desc: "WebGL, React et animations fluides." },
+    { title: "Brand Identity", icon: <Globe size={20} />, desc: "Identités visuelles qui marquent les esprits." },
+  ];
+
+  const works = [
+    { id: 1, title: "Lumina Bank", cat: "Fintech", size: "large", img: "bg-blue-100" },
+    { id: 2, title: "Aeon Flux", cat: "Art Direction", size: "small", img: "bg-purple-100" },
+    { id: 3, title: "Kinetics", cat: "Web Experience", size: "medium", img: "bg-emerald-100" },
+    { id: 4, title: "Mono Space", cat: "Architecture", size: "small", img: "bg-stone-200" },
+  ];
+
+  return (
+    <div 
+      className={`min-h-screen w-full bg-[#FAFAFA] text-[#0A0A0A] font-sans overflow-x-hidden selection:bg-black selection:text-white transition-all duration-700 ${isMelting ? 'filter-melt' : ''}`}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
+      ref={containerRef}
+    >
+      {/* --- SVG Filters Definition --- */}
+      <svg className="hidden">
+        <defs>
+          <filter id="liquid-filter">
+            <feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="3" result="warp" />
+            <feDisplacementMap xChannelSelector="R" yChannelSelector="G" scale="30" in="SourceGraphic" in2="warp" />
+          </filter>
+          <filter id="melt-filter">
+             <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="2" result="turbulence"/>
+             <feDisplacementMap in2="turbulence" in="SourceGraphic" scale="10" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+        </defs>
+      </svg>
+
+      {/* --- Custom Cursor --- */}
+      <div 
+        className="fixed top-0 left-0 w-6 h-6 rounded-full bg-black/10 backdrop-blur-sm pointer-events-none z-[100] transition-transform duration-100 ease-out hidden md:block mix-blend-multiply"
+        style={{ 
+          transform: `translate(${cursorPos.x - 12}px, ${cursorPos.y - 12}px) scale(${hoveredLink ? 2.5 : 1})`,
+        }}
+      />
+
+      {/* --- Background Aurora (Subtle) --- */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-40">
+        <div className="absolute top-[-10%] left-[20%] w-[500px] h-[500px] bg-purple-200 rounded-full blur-[120px] animate-pulse-slow" />
+        <div className="absolute bottom-[-10%] right-[10%] w-[600px] h-[600px] bg-blue-100 rounded-full blur-[140px] animate-float" />
+      </div>
+
+      {/* --- Navigation Bar (Emerges post-unfold) --- */}
+      <nav 
+        className={`fixed top-0 left-0 w-full z-40 transition-all duration-1000 ease-[0.22,1,0.36,1] flex items-center justify-between px-6 md:px-12 py-6
+          ${hasOpened ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10 pointer-events-none'}`}
+      >
+        {/* Placeholder pour garder l'espace du logo qui va arriver ici */}
+        <div className="w-24 opacity-0">Deepgital</div> 
+
+        <div className="flex items-center gap-8">
+          {['Services', 'Réalisations', 'À propos'].map((item, i) => (
+            <button 
+              key={item}
+              className={`text-sm font-medium text-black/60 hover:text-black transition-colors duration-300 relative group hidden md:block
+                ${hasOpened ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
+              style={{ transitionDelay: `${600 + (i * 50)}ms` }}
+              onMouseEnter={() => setHoveredLink(item)}
+              onMouseLeave={() => setHoveredLink(null)}
+            >
+              {item}
+              <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-black transition-all duration-300 group-hover:w-full" />
+            </button>
+          ))}
+          <button 
+            className={`px-5 py-2 rounded-full bg-black text-white text-sm font-medium hover:scale-105 transition-all duration-300 shadow-lg shadow-black/5
+             ${hasOpened ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
+            style={{ transitionDelay: '800ms' }}
+            onMouseEnter={() => setHoveredLink('contact')}
+            onMouseLeave={() => setHoveredLink(null)}
+          >
+            Contact
+          </button>
+        </div>
+      </nav>
+
+      {/* --- THE CENTRAL ACTOR (Logo / Morphing Title) --- */}
+      <div 
+        className={`fixed z-50 transition-all duration-1000 ease-[0.22,1,0.36,1] cursor-pointer
+          ${hasOpened 
+            ? 'top-6 left-6 md:left-12 transform translate-x-0 translate-y-0' 
+            : 'top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'}`}
+        onClick={handleOpen}
+        onMouseEnter={() => !hasOpened && setHoveredLink('logo')}
+        onMouseLeave={() => setHoveredLink(null)}
+      >
+        <h1 
+          className={`font-semibold tracking-tight transition-all duration-700
+            ${hasOpened ? 'text-xl' : 'text-5xl md:text-7xl animate-breathe filter-aurora'}`}
+        >
+          Deepgital
+        </h1>
+        
+        {/* Indication "Click to enter" (Seulement état initial) */}
+        <div className={`absolute left-1/2 -translate-x-1/2 mt-8 text-xs text-gray-400 tracking-widest uppercase transition-opacity duration-500 ${hasOpened ? 'opacity-0 pointer-events-none' : 'opacity-100 animate-pulse'}`}>
+          Entrer
+        </div>
+      </div>
+
+      {/* --- Main Content (Staggered Reveal) --- */}
+      <main className={`relative z-10 w-full max-w-[1600px] mx-auto px-6 md:px-12 transition-all duration-1000 delay-300
+         ${hasOpened ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none translate-y-20'}`}>
+        
+        {/* HERO SECTION */}
+        <section className="min-h-[80vh] flex flex-col justify-center pt-32 pb-20">
+          <div className="max-w-4xl">
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-medium leading-[1.1] tracking-tight mb-8">
+              Nous sculptons le <span className="text-gray-400">vide</span> pour créer des expériences digitales <span className="italic font-serif">tangibles</span>.
+            </h2>
+            <div className="flex items-center gap-4 text-gray-500">
+              <div className="w-12 h-[1px] bg-gray-300"></div>
+              <p>Basés à Paris & Partout</p>
+            </div>
+          </div>
+        </section>
+
+        {/* SERVICES SECTION */}
+        <section className="py-20">
+          <div className="flex justify-between items-end mb-12">
+            <h3 className="text-sm uppercase tracking-widest text-gray-400">Expertise</h3>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {services.map((service, idx) => (
+              <div 
+                key={idx} 
+                className="group p-8 rounded-2xl bg-white/40 backdrop-blur-md border border-white/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-500 hover:-translate-y-1"
+                onMouseEnter={() => setHoveredLink('card')}
+                onMouseLeave={() => setHoveredLink(null)}
+              >
+                <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center mb-6 text-black group-hover:scale-110 transition-transform duration-300">
+                  {service.icon}
+                </div>
+                <h4 className="text-xl font-medium mb-3">{service.title}</h4>
+                <p className="text-gray-500 leading-relaxed">{service.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* WORK / REALISATIONS */}
+        <section className="py-32">
+          <div className="flex justify-between items-end mb-16">
+            <h3 className="text-sm uppercase tracking-widest text-gray-400">Sélection de travaux</h3>
+            <button className="flex items-center gap-2 text-sm font-medium hover:gap-4 transition-all duration-300">
+              Voir tout <ArrowRight size={16} />
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 auto-rows-[400px]">
+            {works.map((work) => (
+              <div 
+                key={work.id}
+                className={`relative group rounded-xl overflow-hidden cursor-none
+                  ${work.size === 'large' ? 'lg:col-span-8' : ''}
+                  ${work.size === 'medium' ? 'lg:col-span-6' : ''}
+                  ${work.size === 'small' ? 'lg:col-span-4' : ''}
+                `}
+                onMouseEnter={() => setHoveredLink('work')}
+                onMouseLeave={() => setHoveredLink(null)}
+              >
+                <div className={`absolute inset-0 ${work.img} transition-transform duration-700 ease-out group-hover:scale-105`} />
+                
+                {/* Overlay Glass */}
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
+                
+                {/* Content */}
+                <div className="absolute bottom-0 left-0 p-8 w-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                  <div className="flex justify-between items-end opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-75">
+                    <div>
+                      <p className="text-xs uppercase tracking-wider text-black/60 mb-1">{work.cat}</p>
+                      <h4 className="text-2xl font-medium text-black">{work.title}</h4>
+                    </div>
+                    <div className="w-10 h-10 rounded-full bg-white/90 backdrop-blur flex items-center justify-center">
+                      <ArrowUpRight size={20} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ABOUT / PHILOSOPHY */}
+        <section className="py-20 border-t border-gray-200/50">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
+             <div>
+                <h3 className="text-3xl md:text-4xl font-medium leading-tight mb-8">
+                  La complexité doit être ressentie,<br/> pas vue.
+                </h3>
+             </div>
+             <div className="space-y-6 text-lg text-gray-500 leading-relaxed">
+               <p>
+                 Nous croyons en un web qui ne se contente pas d'afficher de l'information, mais qui la met en scène. Notre approche est minimaliste par choix, pas par manque.
+               </p>
+               <p>
+                 Chaque pixel est pesé. Chaque transition est une narration. Nous éliminons le superflu pour ne laisser que l'essentiel, sublimé par la technologie.
+               </p>
+               <div className="pt-8">
+                 <a href="#" className="inline-block border-b border-black text-black pb-1 hover:pb-2 transition-all duration-300">
+                   Lire notre manifeste
+                 </a>
+               </div>
+             </div>
+          </div>
+        </section>
+
+        {/* FOOTER / CONTACT */}
+        <footer className="py-32 flex flex-col items-center justify-center text-center">
+           <h2 className="text-5xl md:text-8xl font-semibold tracking-tighter mb-8 cursor-pointer hover:text-gray-600 transition-colors duration-500">
+             Parlons.
+           </h2>
+           <a 
+             href="mailto:hello@deepgital.com" 
+             className="px-8 py-4 rounded-full bg-[#0A0A0A] text-white font-medium text-lg hover:scale-105 hover:shadow-2xl transition-all duration-300 flex items-center gap-3"
+           >
+             <Mail size={20} />
+             Démarrer un projet
+           </a>
+           
+           <div className="mt-24 text-sm text-gray-400 flex gap-8">
+             <span>© 2024 Deepgital</span>
+             <a href="#" className="hover:text-black transition-colors">Instagram</a>
+             <a href="#" className="hover:text-black transition-colors">Twitter</a>
+             <a href="#" className="hover:text-black transition-colors">LinkedIn</a>
+           </div>
+        </footer>
+
+      </main>
+
+      {/* --- CSS Injecté pour Animations Spécifiques --- */}
+      <style jsx global>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0) scale(1); }
+          50% { transform: translateY(-20px) scale(1.05); }
+        }
+        @keyframes breathe {
+          0%, 100% { 
+            transform: scale(1); 
+            filter: drop-shadow(0 0 15px rgba(255,255,255,0.5));
+          }
+          50% { 
+            transform: scale(1.02); 
+            filter: drop-shadow(0 0 25px rgba(255,255,255,0.8));
+          }
+        }
+        .animate-float {
+          animation: float 10s ease-in-out infinite;
+        }
+        .animate-pulse-slow {
+          animation: float 15s ease-in-out infinite reverse;
+        }
+        .animate-breathe {
+          animation: breathe 4s ease-in-out infinite;
+        }
+        
+        /* Glass Aurora Effect on Text */
+        .filter-aurora {
+          background: linear-gradient(135deg, #000 0%, #333 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          /* Petite astuce : on duplique le texte en pseudo élément pour le glow coloré */
+          position: relative;
+        }
+        .filter-aurora::after {
+          content: 'Deepgital';
+          position: absolute;
+          left: 0;
+          top: 0;
+          z-index: -1;
+          background: linear-gradient(90deg, #A855F7, #3B82F6);
+          filter: blur(20px);
+          opacity: 0.3;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        /* Melting Effect Class */
+        .filter-melt {
+          filter: url(#melt-filter);
+          transition: filter 0.2s ease;
+        }
+
+        /* Smooth Scrolling */
+        html {
+          scroll-behavior: smooth;
+        }
+        
+        /* Hide scrollbar for cleaner look */
+        ::-webkit-scrollbar {
+          width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+          background: #E5E5E7;
+          border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+          background: #D4D4D8;
+        }
+      `}</style>
+    </div>
+  );
+};
+
+export default Deepgital;
