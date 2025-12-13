@@ -102,11 +102,15 @@ export default function HomePage() {
             }}
             animate={{ 
               opacity: 1, 
-              scale: 1,
+              scale: [0.5, 1.08, 1], // Zoom léger vers l'utilisateur sur mobile
             }}
             transition={{
-              duration: 0.6,
+              duration: 0.7,
               ease: [0.16, 1, 0.3, 1],
+              scale: {
+                times: [0, 0.6, 1],
+                duration: 0.7,
+              },
             }}
           >
             {/* Bordure animée avec dégradé */}
