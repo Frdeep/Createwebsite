@@ -41,12 +41,18 @@ export default function HomePage() {
             aria-label="Cliquez pour ouvrir le menu"
           >
             <motion.span
+              className="deepgital-gradient"
               style={{
                 fontSize: 'clamp(3rem, 10vw, 6rem)',
                 fontWeight: 700,
                 letterSpacing: '-0.04em',
-                color: '#0A0A0A',
                 display: 'inline-block',
+                background: 'linear-gradient(90deg, #0A0A0A 0%, #0A0A0A 20%, #FF6B6B 35%, #FF9F43 50%, #A855F7 65%, #0A0A0A 80%, #0A0A0A 100%)',
+                backgroundSize: '300% 100%',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                animation: 'gradient-flow 4s ease-in-out infinite',
               }}
               animate={{ 
                 y: [0, -12, 0],
