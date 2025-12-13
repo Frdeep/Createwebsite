@@ -10,43 +10,80 @@ const menuItems = [
   'Vidéos créative',
 ];
 
-// Configuration des bento grids optimisés pour chaque service
-const bentoConfigs: Record<string, { cols: string; cells: { colSpan: string; rowSpan: string; height: string }[] }> = {
+// Configuration des bento grids pour Desktop
+const desktopBentoConfigs: Record<string, { cols: string; cells: { colSpan: string; height: string }[] }> = {
   'Site web': {
     cols: 'repeat(4, 1fr)',
     cells: [
-      { colSpan: 'span 2', rowSpan: 'span 2', height: '300px' },
-      { colSpan: 'span 2', rowSpan: 'span 1', height: '140px' },
-      { colSpan: 'span 1', rowSpan: 'span 1', height: '140px' },
-      { colSpan: 'span 1', rowSpan: 'span 1', height: '140px' },
+      { colSpan: 'span 2', height: '300px' },
+      { colSpan: 'span 2', height: '140px' },
+      { colSpan: 'span 1', height: '140px' },
+      { colSpan: 'span 1', height: '140px' },
     ],
   },
   'Logiciel et Automatisation': {
     cols: 'repeat(3, 1fr)',
     cells: [
-      { colSpan: 'span 1', rowSpan: 'span 2', height: '300px' },
-      { colSpan: 'span 2', rowSpan: 'span 1', height: '140px' },
-      { colSpan: 'span 1', rowSpan: 'span 1', height: '140px' },
-      { colSpan: 'span 1', rowSpan: 'span 1', height: '140px' },
+      { colSpan: 'span 1', height: '300px' },
+      { colSpan: 'span 2', height: '140px' },
+      { colSpan: 'span 1', height: '140px' },
+      { colSpan: 'span 1', height: '140px' },
     ],
   },
   'Application web et mobile': {
     cols: 'repeat(3, 1fr)',
     cells: [
-      { colSpan: 'span 1', rowSpan: 'span 1', height: '160px' },
-      { colSpan: 'span 2', rowSpan: 'span 2', height: '340px' },
-      { colSpan: 'span 1', rowSpan: 'span 1', height: '160px' },
-      { colSpan: 'span 1', rowSpan: 'span 2', height: '340px' },
+      { colSpan: 'span 1', height: '160px' },
+      { colSpan: 'span 2', height: '340px' },
+      { colSpan: 'span 1', height: '160px' },
+      { colSpan: 'span 1', height: '340px' },
     ],
   },
   'Vidéos créative': {
     cols: 'repeat(4, 1fr)',
     cells: [
-      { colSpan: 'span 2', rowSpan: 'span 1', height: '180px' },
-      { colSpan: 'span 1', rowSpan: 'span 2', height: '380px' },
-      { colSpan: 'span 1', rowSpan: 'span 1', height: '180px' },
-      { colSpan: 'span 2', rowSpan: 'span 1', height: '180px' },
-      { colSpan: 'span 1', rowSpan: 'span 1', height: '180px' },
+      { colSpan: 'span 2', height: '180px' },
+      { colSpan: 'span 1', height: '380px' },
+      { colSpan: 'span 1', height: '180px' },
+      { colSpan: 'span 2', height: '180px' },
+      { colSpan: 'span 1', height: '180px' },
+    ],
+  },
+};
+
+// Configuration des bento grids pour Mobile - Layout optimisé UX
+const mobileBentoConfigs: Record<string, { cells: { colSpan: string; height: string }[] }> = {
+  'Site web': {
+    cells: [
+      { colSpan: 'span 2', height: '200px' }, // Hero - Full width
+      { colSpan: 'span 1', height: '140px' }, // 2 colonnes
+      { colSpan: 'span 1', height: '140px' },
+      { colSpan: 'span 2', height: '120px' }, // Full width
+    ],
+  },
+  'Logiciel et Automatisation': {
+    cells: [
+      { colSpan: 'span 2', height: '180px' }, // Hero
+      { colSpan: 'span 2', height: '140px' }, // Full width
+      { colSpan: 'span 1', height: '120px' }, // 2 colonnes
+      { colSpan: 'span 1', height: '120px' },
+    ],
+  },
+  'Application web et mobile': {
+    cells: [
+      { colSpan: 'span 1', height: '180px' }, // 2 colonnes égales
+      { colSpan: 'span 1', height: '180px' },
+      { colSpan: 'span 2', height: '200px' }, // Hero central
+      { colSpan: 'span 2', height: '120px' }, // Full width
+    ],
+  },
+  'Vidéos créative': {
+    cells: [
+      { colSpan: 'span 2', height: '220px' }, // Vidéo hero
+      { colSpan: 'span 1', height: '150px' }, // Thumbnails
+      { colSpan: 'span 1', height: '150px' },
+      { colSpan: 'span 1', height: '130px' },
+      { colSpan: 'span 1', height: '130px' },
     ],
   },
 };
@@ -71,14 +108,14 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] flex flex-col items-center justify-start pt-[15vh] sm:pt-[20vh] px-4 sm:px-6 pb-12">
+    <div className="min-h-screen bg-[#FAFAFA] flex flex-col items-center justify-start pt-[12vh] sm:pt-[15vh] px-4 sm:px-6 pb-12">
       <AnimatePresence mode="wait">
         {!isTransformed ? (
           // État initial : "Deepgital" au centre avec bounce
           <motion.button
             key="title"
             onClick={() => setIsTransformed(true)}
-            className="relative cursor-pointer border-none bg-transparent focus:outline-none select-none mt-[20vh]"
+            className="relative cursor-pointer border-none bg-transparent focus:outline-none select-none mt-[15vh] sm:mt-[20vh]"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ 
               opacity: 1, 
@@ -136,13 +173,13 @@ export default function HomePage() {
           // État transformé : Navbar + Bento Grid
           <motion.div
             key="navbar-container"
-            className="flex flex-col items-center gap-10 w-full"
+            className="flex flex-col items-center gap-6 sm:gap-10 w-full max-w-[950px]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
             {/* Navbar liquid glass (responsive) */}
             <motion.nav
-              className="relative px-5 sm:px-8 py-5 sm:py-5 rounded-[24px] sm:rounded-[28px] flex flex-col sm:flex-row items-center gap-4 sm:gap-8 navbar-gradient max-w-[95vw] sm:max-w-none z-10"
+              className="relative px-5 sm:px-8 py-4 sm:py-5 rounded-[24px] sm:rounded-[28px] flex flex-col sm:flex-row items-center gap-4 sm:gap-8 navbar-gradient w-full sm:w-auto z-10"
               style={{
                 background: 'rgba(255, 255, 255, 0.7)',
                 backdropFilter: 'blur(40px) saturate(180%)',
@@ -222,21 +259,21 @@ export default function HomePage() {
                 transition={{ delay: 0.3, duration: 0.3 }}
               />
               <motion.div
-                className="block sm:hidden w-12 h-px bg-[#D2D2D7]"
+                className="block sm:hidden w-16 h-px bg-[#D2D2D7]"
                 initial={{ opacity: 0, scaleX: 0 }}
                 animate={{ opacity: 1, scaleX: 1 }}
                 transition={{ delay: 0.3, duration: 0.3 }}
               />
 
-              {/* Liens de navigation - vertical sur mobile, horizontal sur desktop */}
-              <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6">
+              {/* Liens de navigation - Grid 2x2 sur mobile, horizontal sur desktop */}
+              <div className="grid grid-cols-2 sm:flex sm:flex-row items-center gap-2 sm:gap-6 w-full sm:w-auto">
                 {menuItems.map((item, index) => (
                   <motion.button
                     key={item}
                     onClick={() => handleServiceClick(item)}
-                    className={`relative text-sm sm:text-[0.9375rem] font-medium transition-colors whitespace-nowrap text-center bg-transparent border-none cursor-pointer py-1 ${
+                    className={`relative text-xs sm:text-[0.9375rem] font-medium transition-all whitespace-nowrap text-center bg-transparent border-none cursor-pointer py-2.5 sm:py-1 px-3 sm:px-0 rounded-xl sm:rounded-none ${
                       activeService === item 
-                        ? 'text-[#0A0A0A]' 
+                        ? 'text-[#0A0A0A] bg-white/50 sm:bg-transparent' 
                         : 'text-[#6E6E73] hover:text-[#0A0A0A]'
                     }`}
                     initial={{ opacity: 0, y: 10, filter: 'blur(4px)' }}
@@ -247,10 +284,10 @@ export default function HomePage() {
                       ease: [0.16, 1, 0.3, 1],
                     }}
                     whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileTap={{ scale: 0.96 }}
                   >
                     {item}
-                    {/* Indicateur actif */}
+                    {/* Indicateur actif - Desktop */}
                     <AnimatePresence>
                       {activeService === item && (
                         <motion.div
@@ -270,12 +307,12 @@ export default function HomePage() {
               </div>
             </motion.nav>
 
-            {/* Bento Grid - Desktop uniquement */}
+            {/* Bento Grid - Responsive */}
             <AnimatePresence mode="wait">
               {activeService && (
                 <motion.div
                   key={activeService}
-                  className="hidden sm:block w-full max-w-[950px] relative"
+                  className="w-full relative"
                   initial={{ opacity: 0, y: 30, scale: 0.92 }}
                   animate={{ 
                     opacity: 1, 
@@ -290,28 +327,29 @@ export default function HomePage() {
                   }}
                   transition={{ 
                     duration: 0.5, 
-                    ease: [0.34, 1.56, 0.64, 1], // Bounce effect
+                    ease: [0.34, 1.56, 0.64, 1],
                   }}
                 >
                   {/* Ombre noire derrière le grid */}
                   <div 
                     className="absolute inset-0 -z-10"
                     style={{
-                      background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.15) 0%, transparent 70%)',
-                      transform: 'translateY(20px) scale(0.95)',
-                      filter: 'blur(30px)',
+                      background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.12) 0%, transparent 70%)',
+                      transform: 'translateY(20px) scale(0.9)',
+                      filter: 'blur(40px)',
                     }}
                   />
-                  
+
+                  {/* Desktop Grid */}
                   <div 
-                    className="grid gap-4 auto-rows-auto"
+                    className="hidden sm:grid gap-4 auto-rows-auto"
                     style={{
-                      gridTemplateColumns: bentoConfigs[activeService].cols,
+                      gridTemplateColumns: desktopBentoConfigs[activeService].cols,
                     }}
                   >
-                    {bentoConfigs[activeService].cells.map((cell, index) => (
+                    {desktopBentoConfigs[activeService].cells.map((cell, index) => (
                       <motion.div
-                        key={`${activeService}-${index}`}
+                        key={`desktop-${activeService}-${index}`}
                         className="rounded-[24px] bg-white/70 backdrop-blur-xl border border-white/40 cursor-pointer hover:bg-white/90 transition-colors duration-300"
                         style={{
                           gridColumn: cell.colSpan,
@@ -331,7 +369,7 @@ export default function HomePage() {
                         transition={{
                           delay: 0.08 + index * 0.07,
                           duration: 0.5,
-                          ease: [0.34, 1.56, 0.64, 1], // Bounce
+                          ease: [0.34, 1.56, 0.64, 1],
                         }}
                         whileHover={{ 
                           scale: 1.02,
@@ -342,7 +380,78 @@ export default function HomePage() {
                       />
                     ))}
                   </div>
+
+                  {/* Mobile Grid - 2 colonnes optimisé UX */}
+                  <div 
+                    className="grid sm:hidden gap-3 auto-rows-auto"
+                    style={{
+                      gridTemplateColumns: 'repeat(2, 1fr)',
+                    }}
+                  >
+                    {mobileBentoConfigs[activeService].cells.map((cell, index) => (
+                      <motion.div
+                        key={`mobile-${activeService}-${index}`}
+                        className="rounded-[20px] bg-white/70 backdrop-blur-xl border border-white/40 cursor-pointer active:bg-white/90 transition-colors duration-300"
+                        style={{
+                          gridColumn: cell.colSpan,
+                          height: cell.height,
+                          boxShadow: '0 6px 24px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04)',
+                        }}
+                        initial={{ 
+                          opacity: 0, 
+                          scale: 0.85,
+                          y: 30,
+                        }}
+                        animate={{ 
+                          opacity: 1, 
+                          scale: 1,
+                          y: 0,
+                        }}
+                        transition={{
+                          delay: 0.06 + index * 0.06,
+                          duration: 0.45,
+                          ease: [0.34, 1.56, 0.64, 1],
+                        }}
+                        whileTap={{ 
+                          scale: 0.97,
+                          transition: { duration: 0.1 }
+                        }}
+                      />
+                    ))}
+                  </div>
+
+                  {/* Indicateur scroll sur mobile si nécessaire */}
+                  <motion.div
+                    className="sm:hidden flex justify-center mt-4"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 0.6 }}
+                    transition={{ delay: 0.6 }}
+                  >
+                    <div className="flex gap-1.5">
+                      {mobileBentoConfigs[activeService].cells.slice(0, 4).map((_, i) => (
+                        <div 
+                          key={i}
+                          className="w-1.5 h-1.5 rounded-full bg-[#D2D2D7]"
+                        />
+                      ))}
+                    </div>
+                  </motion.div>
                 </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Hint pour l'utilisateur quand aucun service sélectionné */}
+            <AnimatePresence>
+              {!activeService && (
+                <motion.p
+                  className="text-[#86868B] text-sm text-center mt-4"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 0.7, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ delay: 0.5, duration: 0.4 }}
+                >
+                  Sélectionnez un service pour voir nos réalisations
+                </motion.p>
               )}
             </AnimatePresence>
           </motion.div>
