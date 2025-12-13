@@ -26,7 +26,6 @@ export default function HomePage() {
             animate={{ 
               opacity: 1, 
               scale: 1,
-              y: [0, -8, 0],
             }}
             exit={{ 
               opacity: 0,
@@ -36,26 +35,30 @@ export default function HomePage() {
             transition={{
               opacity: { duration: 0.5 },
               scale: { duration: 0.5 },
-              y: {
-                duration: 2,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              },
             }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
             aria-label="Cliquez pour ouvrir le menu"
           >
-            <span
+            <motion.span
               style={{
                 fontSize: 'clamp(3rem, 10vw, 6rem)',
                 fontWeight: 700,
                 letterSpacing: '-0.04em',
                 color: '#0A0A0A',
+                display: 'inline-block',
+              }}
+              animate={{ 
+                y: [0, -12, 0],
+              }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                ease: 'easeInOut',
               }}
             >
               Deepgital
-            </span>
+            </motion.span>
             
             {/* Indicateur de clic subtil */}
             <motion.div
