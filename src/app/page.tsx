@@ -129,6 +129,39 @@ const mobileBentoConfigs: Record<string, { cells: { colSpan: string; height: str
   },
 };
 
+// Composant Typing Text Animation
+function TypingText({ text }: { text: string }) {
+  const words = text.split(' ');
+  
+  return (
+    <motion.p 
+      className="text-[#6E6E73] text-base sm:text-lg leading-relaxed"
+      initial="hidden"
+      animate="visible"
+    >
+      {words.map((word, wordIndex) => (
+        <span key={wordIndex} className="inline-block mr-[0.3em]">
+          {word.split('').map((char, charIndex) => (
+            <motion.span
+              key={`${wordIndex}-${charIndex}`}
+              className="inline-block"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.3,
+                delay: (wordIndex * 5 + charIndex) * 0.02,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+            >
+              {char}
+            </motion.span>
+          ))}
+        </span>
+      ))}
+    </motion.p>
+  );
+}
+
 // Composant Carte Flip
 function FlipCard({ service, isFlipped, onFlip }: { service: string; isFlipped: boolean; onFlip: () => void }) {
   const data = serviceCards[service];
@@ -467,6 +500,23 @@ export default function HomePage() {
               </div>
             </motion.nav>
 
+            {/* Texte d'introduction avec typing animation */}
+            <AnimatePresence>
+              {!activeService && (
+                <motion.div
+                  className="text-center max-w-[600px] px-4"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <TypingText 
+                    text="L'agence qui construit ce que tu n'as pas encore imaginé, découvrez nos services et prenez rendez-vous dès maintenant."
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             {/* Contenu du service sélectionné */}
             <AnimatePresence mode="wait">
               {activeService && (
@@ -603,20 +653,6 @@ export default function HomePage() {
               )}
             </AnimatePresence>
 
-            {/* Hint pour l'utilisateur quand aucun service sélectionné */}
-            <AnimatePresence>
-              {!activeService && (
-                <motion.p
-                  className="text-[#86868B] text-sm text-center mt-4"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 0.7, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ delay: 0.5, duration: 0.4 }}
-                >
-                  Sélectionnez un service pour voir nos réalisations
-                </motion.p>
-              )}
-            </AnimatePresence>
           </motion.div>
         )}
       </AnimatePresence>
