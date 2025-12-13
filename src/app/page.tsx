@@ -10,48 +10,43 @@ const menuItems = [
   'Vidéos créative',
 ];
 
-// Configuration du bento grid pour chaque service
-const bentoConfigs: Record<string, { cols: number; rows: number; cells: { colSpan: number; rowSpan: number }[] }> = {
+// Configuration des bento grids optimisés pour chaque service
+const bentoConfigs: Record<string, { cols: string; cells: { colSpan: string; rowSpan: string; height: string }[] }> = {
   'Site web': {
-    cols: 4,
-    rows: 2,
+    cols: 'repeat(4, 1fr)',
     cells: [
-      { colSpan: 2, rowSpan: 2 },
-      { colSpan: 1, rowSpan: 1 },
-      { colSpan: 1, rowSpan: 1 },
-      { colSpan: 1, rowSpan: 1 },
-      { colSpan: 1, rowSpan: 1 },
+      { colSpan: 'span 2', rowSpan: 'span 2', height: '300px' },
+      { colSpan: 'span 2', rowSpan: 'span 1', height: '140px' },
+      { colSpan: 'span 1', rowSpan: 'span 1', height: '140px' },
+      { colSpan: 'span 1', rowSpan: 'span 1', height: '140px' },
     ],
   },
   'Logiciel et Automatisation': {
-    cols: 3,
-    rows: 2,
+    cols: 'repeat(3, 1fr)',
     cells: [
-      { colSpan: 1, rowSpan: 2 },
-      { colSpan: 2, rowSpan: 1 },
-      { colSpan: 1, rowSpan: 1 },
-      { colSpan: 1, rowSpan: 1 },
+      { colSpan: 'span 1', rowSpan: 'span 2', height: '300px' },
+      { colSpan: 'span 2', rowSpan: 'span 1', height: '140px' },
+      { colSpan: 'span 1', rowSpan: 'span 1', height: '140px' },
+      { colSpan: 'span 1', rowSpan: 'span 1', height: '140px' },
     ],
   },
   'Application web et mobile': {
-    cols: 4,
-    rows: 2,
+    cols: 'repeat(3, 1fr)',
     cells: [
-      { colSpan: 1, rowSpan: 1 },
-      { colSpan: 2, rowSpan: 2 },
-      { colSpan: 1, rowSpan: 1 },
-      { colSpan: 1, rowSpan: 1 },
-      { colSpan: 1, rowSpan: 1 },
+      { colSpan: 'span 1', rowSpan: 'span 1', height: '160px' },
+      { colSpan: 'span 2', rowSpan: 'span 2', height: '340px' },
+      { colSpan: 'span 1', rowSpan: 'span 1', height: '160px' },
+      { colSpan: 'span 1', rowSpan: 'span 2', height: '340px' },
     ],
   },
   'Vidéos créative': {
-    cols: 3,
-    rows: 2,
+    cols: 'repeat(4, 1fr)',
     cells: [
-      { colSpan: 2, rowSpan: 1 },
-      { colSpan: 1, rowSpan: 2 },
-      { colSpan: 1, rowSpan: 1 },
-      { colSpan: 1, rowSpan: 1 },
+      { colSpan: 'span 2', rowSpan: 'span 1', height: '180px' },
+      { colSpan: 'span 1', rowSpan: 'span 2', height: '380px' },
+      { colSpan: 'span 1', rowSpan: 'span 1', height: '180px' },
+      { colSpan: 'span 2', rowSpan: 'span 1', height: '180px' },
+      { colSpan: 'span 1', rowSpan: 'span 1', height: '180px' },
     ],
   },
 };
@@ -72,22 +67,18 @@ export default function HomePage() {
   }, [isTransformed]);
 
   const handleServiceClick = (service: string) => {
-    if (activeService === service) {
-      setActiveService(null);
-    } else {
-      setActiveService(service);
-    }
+    setActiveService(prev => prev === service ? null : service);
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] flex flex-col items-center justify-center px-4 sm:px-6">
+    <div className="min-h-screen bg-[#FAFAFA] flex flex-col items-center justify-start pt-[15vh] sm:pt-[20vh] px-4 sm:px-6 pb-12">
       <AnimatePresence mode="wait">
         {!isTransformed ? (
           // État initial : "Deepgital" au centre avec bounce
           <motion.button
             key="title"
             onClick={() => setIsTransformed(true)}
-            className="relative cursor-pointer border-none bg-transparent focus:outline-none select-none"
+            className="relative cursor-pointer border-none bg-transparent focus:outline-none select-none mt-[20vh]"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ 
               opacity: 1, 
@@ -145,13 +136,13 @@ export default function HomePage() {
           // État transformé : Navbar + Bento Grid
           <motion.div
             key="navbar-container"
-            className="flex flex-col items-center gap-8"
+            className="flex flex-col items-center gap-10 w-full"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
             {/* Navbar liquid glass (responsive) */}
             <motion.nav
-              className="relative px-5 sm:px-8 py-5 sm:py-5 rounded-[24px] sm:rounded-[28px] flex flex-col sm:flex-row items-center gap-4 sm:gap-8 navbar-gradient max-w-[95vw] sm:max-w-none"
+              className="relative px-5 sm:px-8 py-5 sm:py-5 rounded-[24px] sm:rounded-[28px] flex flex-col sm:flex-row items-center gap-4 sm:gap-8 navbar-gradient max-w-[95vw] sm:max-w-none z-10"
               style={{
                 background: 'rgba(255, 255, 255, 0.7)',
                 backdropFilter: 'blur(40px) saturate(180%)',
@@ -243,7 +234,7 @@ export default function HomePage() {
                   <motion.button
                     key={item}
                     onClick={() => handleServiceClick(item)}
-                    className={`text-sm sm:text-[0.9375rem] font-medium transition-colors whitespace-nowrap text-center bg-transparent border-none cursor-pointer ${
+                    className={`relative text-sm sm:text-[0.9375rem] font-medium transition-colors whitespace-nowrap text-center bg-transparent border-none cursor-pointer py-1 ${
                       activeService === item 
                         ? 'text-[#0A0A0A]' 
                         : 'text-[#6E6E73] hover:text-[#0A0A0A]'
@@ -260,53 +251,94 @@ export default function HomePage() {
                   >
                     {item}
                     {/* Indicateur actif */}
-                    {activeService === item && (
-                      <motion.div
-                        className="hidden sm:block h-0.5 bg-gradient-to-r from-[#FF6B6B] via-[#FF9F43] to-[#A855F7] mt-1 rounded-full"
-                        layoutId="activeIndicator"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                      />
-                    )}
+                    <AnimatePresence>
+                      {activeService === item && (
+                        <motion.div
+                          className="absolute -bottom-0.5 left-0 right-0 h-0.5 rounded-full hidden sm:block"
+                          style={{
+                            background: 'linear-gradient(90deg, #FF6B6B, #FF9F43, #A855F7)',
+                          }}
+                          initial={{ scaleX: 0, opacity: 0 }}
+                          animate={{ scaleX: 1, opacity: 1 }}
+                          exit={{ scaleX: 0, opacity: 0 }}
+                          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                        />
+                      )}
+                    </AnimatePresence>
                   </motion.button>
                 ))}
               </div>
             </motion.nav>
 
             {/* Bento Grid - Desktop uniquement */}
-            <AnimatePresence>
+            <AnimatePresence mode="wait">
               {activeService && (
                 <motion.div
                   key={activeService}
-                  className="hidden sm:block w-full max-w-[900px]"
-                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: 10, scale: 0.98 }}
-                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  className="hidden sm:block w-full max-w-[950px] relative"
+                  initial={{ opacity: 0, y: 30, scale: 0.92 }}
+                  animate={{ 
+                    opacity: 1, 
+                    y: 0, 
+                    scale: 1,
+                  }}
+                  exit={{ 
+                    opacity: 0, 
+                    y: -20, 
+                    scale: 0.95,
+                    transition: { duration: 0.25 }
+                  }}
+                  transition={{ 
+                    duration: 0.5, 
+                    ease: [0.34, 1.56, 0.64, 1], // Bounce effect
+                  }}
                 >
+                  {/* Ombre noire derrière le grid */}
                   <div 
-                    className="grid gap-4"
+                    className="absolute inset-0 -z-10"
                     style={{
-                      gridTemplateColumns: `repeat(${bentoConfigs[activeService].cols}, 1fr)`,
-                      gridAutoRows: '140px',
+                      background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.15) 0%, transparent 70%)',
+                      transform: 'translateY(20px) scale(0.95)',
+                      filter: 'blur(30px)',
+                    }}
+                  />
+                  
+                  <div 
+                    className="grid gap-4 auto-rows-auto"
+                    style={{
+                      gridTemplateColumns: bentoConfigs[activeService].cols,
                     }}
                   >
                     {bentoConfigs[activeService].cells.map((cell, index) => (
                       <motion.div
-                        key={index}
-                        className="rounded-[20px] bg-white/60 backdrop-blur-xl border border-white/30"
+                        key={`${activeService}-${index}`}
+                        className="rounded-[24px] bg-white/70 backdrop-blur-xl border border-white/40 cursor-pointer hover:bg-white/90 transition-colors duration-300"
                         style={{
-                          gridColumn: `span ${cell.colSpan}`,
-                          gridRow: `span ${cell.rowSpan}`,
-                          boxShadow: '0 4px 24px rgba(0, 0, 0, 0.06)',
+                          gridColumn: cell.colSpan,
+                          height: cell.height,
+                          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04)',
                         }}
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
+                        initial={{ 
+                          opacity: 0, 
+                          scale: 0.8,
+                          y: 40,
+                        }}
+                        animate={{ 
+                          opacity: 1, 
+                          scale: 1,
+                          y: 0,
+                        }}
                         transition={{
-                          delay: 0.1 + index * 0.06,
-                          duration: 0.4,
-                          ease: [0.16, 1, 0.3, 1],
+                          delay: 0.08 + index * 0.07,
+                          duration: 0.5,
+                          ease: [0.34, 1.56, 0.64, 1], // Bounce
                         }}
+                        whileHover={{ 
+                          scale: 1.02,
+                          boxShadow: '0 12px 40px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.06)',
+                          transition: { duration: 0.2 }
+                        }}
+                        whileTap={{ scale: 0.98 }}
                       />
                     ))}
                   </div>
