@@ -129,33 +129,53 @@ const mobileBentoConfigs: Record<string, { cells: { colSpan: string; height: str
   },
 };
 
-// Composant Typing Text Animation
+// Composant Typing Text Animation avec boucle
 function TypingText({ text }: { text: string }) {
+  const [key, setKey] = useState(0);
   const words = text.split(' ');
+  
+  // Calculer le délai total pour relancer l'animation
+  const totalChars = text.replace(/ /g, '').length;
+  const charDelay = 0.05; // 50ms par caractère
+  const animationDuration = totalChars * charDelay + 2; // +2s de pause à la fin
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setKey(prev => prev + 1);
+    }, animationDuration * 1000);
+    
+    return () => clearInterval(interval);
+  }, [animationDuration]);
+  
+  let globalCharIndex = 0;
   
   return (
     <motion.h2 
+      key={key}
       className="text-[#1D1D1F] text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold leading-snug sm:leading-normal"
-      initial="hidden"
-      animate="visible"
     >
       {words.map((word, wordIndex) => (
         <span key={wordIndex} className="inline-block mr-[0.25em]">
-          {word.split('').map((char, charIndex) => (
-            <motion.span
-              key={`${wordIndex}-${charIndex}`}
-              className="inline-block"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.25,
-                delay: (wordIndex * 4 + charIndex) * 0.018,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-            >
-              {char}
-            </motion.span>
-          ))}
+          {word.split('').map((char, charIndex) => {
+            const delay = globalCharIndex * charDelay;
+            globalCharIndex++;
+            
+            return (
+              <motion.span
+                key={`${wordIndex}-${charIndex}`}
+                className="inline-block"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.4,
+                  delay: delay,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+              >
+                {char}
+              </motion.span>
+            );
+          })}
         </span>
       ))}
     </motion.h2>
@@ -464,7 +484,7 @@ export default function HomePage() {
                   <motion.button
                     key={item}
                     onClick={() => handleServiceClick(item)}
-                    className={`relative text-xs sm:text-[0.9375rem] font-medium transition-all whitespace-nowrap text-center bg-transparent border-none cursor-pointer py-2.5 sm:py-1 px-3 sm:px-0 rounded-xl sm:rounded-none ${
+                    className={`relative text-xs sm:text-[0.9375rem] font-bold transition-all whitespace-nowrap text-center bg-transparent border-none cursor-pointer py-2.5 sm:py-1 px-3 sm:px-0 rounded-xl sm:rounded-none ${
                       activeService === item 
                         ? 'text-[#0A0A0A] bg-white/50 sm:bg-transparent' 
                         : 'text-[#6E6E73] hover:text-[#0A0A0A]'
