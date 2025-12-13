@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const menuItems = [
@@ -12,6 +12,17 @@ const menuItems = [
 
 export default function HomePage() {
   const [isTransformed, setIsTransformed] = useState(false);
+  const [showGlow, setShowGlow] = useState(false);
+
+  // Afficher l'ombre colorée après 7 secondes sur la navbar
+  useEffect(() => {
+    if (isTransformed) {
+      const timer = setTimeout(() => {
+        setShowGlow(true);
+      }, 7000);
+      return () => clearTimeout(timer);
+    }
+  }, [isTransformed]);
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center">
@@ -79,18 +90,15 @@ export default function HomePage() {
           // État transformé : Navbar liquid glass
           <motion.nav
             key="navbar"
-            className="relative px-8 py-5 rounded-[28px] flex items-center gap-8"
+            className="relative px-8 py-5 rounded-[28px] flex items-center gap-8 navbar-gradient"
             style={{
               background: 'rgba(255, 255, 255, 0.7)',
               backdropFilter: 'blur(40px) saturate(180%)',
               WebkitBackdropFilter: 'blur(40px) saturate(180%)',
-              border: '1px solid rgba(255, 255, 255, 0.3)',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08), inset 0 0 0 1px rgba(255, 255, 255, 0.1)',
             }}
             initial={{ 
               opacity: 0, 
               scale: 0.5,
-              width: 'auto',
             }}
             animate={{ 
               opacity: 1, 
@@ -101,10 +109,47 @@ export default function HomePage() {
               ease: [0.16, 1, 0.3, 1],
             }}
           >
-            {/* Logo Deepgital */}
+            {/* Bordure animée avec dégradé */}
+            <div 
+              className="absolute inset-0 rounded-[28px] pointer-events-none"
+              style={{
+                padding: '1.5px',
+                background: 'linear-gradient(90deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.3) 20%, #FF6B6B 35%, #FF9F43 50%, #A855F7 65%, rgba(255,255,255,0.3) 80%, rgba(255,255,255,0.3) 100%)',
+                backgroundSize: '300% 100%',
+                animation: 'gradient-flow 4s ease-in-out infinite',
+                WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                WebkitMaskComposite: 'xor',
+                maskComposite: 'exclude',
+              }}
+            />
+
+            {/* Ombre colorée qui apparaît après 7 secondes */}
+            <motion.div
+              className="absolute inset-0 rounded-[28px] pointer-events-none -z-10"
+              style={{
+                background: 'linear-gradient(90deg, #FF6B6B 0%, #FF9F43 50%, #A855F7 100%)',
+                backgroundSize: '200% 100%',
+                animation: 'gradient-flow 4s ease-in-out infinite',
+                filter: 'blur(25px)',
+              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: showGlow ? 0.4 : 0 }}
+              transition={{ duration: 1.5, ease: 'easeOut' }}
+            />
+
+            {/* Logo Deepgital avec dégradé */}
             <motion.span
-              className="font-bold text-[#0A0A0A] whitespace-nowrap"
-              style={{ fontSize: '1.25rem', letterSpacing: '-0.02em' }}
+              className="font-bold whitespace-nowrap"
+              style={{ 
+                fontSize: '1.25rem', 
+                letterSpacing: '-0.02em',
+                background: 'linear-gradient(90deg, #0A0A0A 0%, #0A0A0A 20%, #FF6B6B 35%, #FF9F43 50%, #A855F7 65%, #0A0A0A 80%, #0A0A0A 100%)',
+                backgroundSize: '300% 100%',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                animation: 'gradient-flow 4s ease-in-out infinite',
+              }}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2, duration: 0.4 }}
