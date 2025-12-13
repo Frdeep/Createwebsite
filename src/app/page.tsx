@@ -4,10 +4,10 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const menuItems = [
-  'Site web',
-  'Logiciel et Automatisation',
-  'Application web et mobile',
-  'Vidéos créative',
+  { full: 'Site web', short: 'Site web' },
+  { full: 'Logiciel et Automatisation', short: 'Automatisation' },
+  { full: 'Application web et mobile', short: 'App mobile' },
+  { full: 'Vidéos créative', short: 'Vidéos' },
 ];
 
 // Données des cartes de service
@@ -188,9 +188,8 @@ function FlipCard({ service, isFlipped, onFlip }: { service: string; isFlipped: 
   
   return (
     <motion.div
-      className="relative w-full cursor-pointer"
+      className="relative w-full cursor-pointer h-[320px] sm:h-[280px]"
       style={{ 
-        height: '280px',
         perspective: '1000px',
       }}
       onClick={onFlip}
@@ -208,7 +207,7 @@ function FlipCard({ service, isFlipped, onFlip }: { service: string; isFlipped: 
       >
         {/* Face avant */}
         <div
-          className="absolute inset-0 rounded-[28px] p-6 sm:p-8 flex flex-col justify-between"
+          className="absolute inset-0 rounded-[24px] sm:rounded-[28px] p-5 sm:p-8 flex flex-col justify-between"
           style={{
             backfaceVisibility: 'hidden',
             background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%)',
@@ -219,7 +218,7 @@ function FlipCard({ service, isFlipped, onFlip }: { service: string; isFlipped: 
         >
           {/* Gradient border */}
           <div 
-            className="absolute inset-0 rounded-[28px] pointer-events-none"
+            className="absolute inset-0 rounded-[24px] sm:rounded-[28px] pointer-events-none"
             style={{
               padding: '2px',
               background: 'linear-gradient(135deg, #FF6B6B 0%, #FF9F43 50%, #A855F7 100%)',
@@ -232,7 +231,7 @@ function FlipCard({ service, isFlipped, onFlip }: { service: string; isFlipped: 
           
           <div>
             <h3 
-              className="text-xl sm:text-2xl font-bold mb-4"
+              className="text-lg sm:text-2xl font-bold mb-3 sm:mb-4"
               style={{
                 background: 'linear-gradient(135deg, #0A0A0A 0%, #1D1D1F 100%)',
                 backgroundClip: 'text',
@@ -242,31 +241,31 @@ function FlipCard({ service, isFlipped, onFlip }: { service: string; isFlipped: 
             >
               {data.title}
             </h3>
-            <ul className="space-y-2">
+            <ul className="space-y-1.5 sm:space-y-2">
               {data.delivers.map((item, i) => (
-                <li key={i} className="flex items-start gap-2 text-sm sm:text-base text-[#6E6E73]">
-                  <span className="text-[#FF9F43] mt-0.5">•</span>
-                  {item}
+                <li key={i} className="flex items-start gap-2 text-[13px] sm:text-base text-[#6E6E73]">
+                  <span className="text-[#FF9F43] mt-0.5 flex-shrink-0">•</span>
+                  <span>{item}</span>
                 </li>
               ))}
             </ul>
           </div>
           
-          <div className="flex items-center justify-between mt-4">
-            <span className="text-xs text-[#86868B]">Cliquez pour en savoir plus</span>
+          <div className="flex items-center justify-between mt-3 sm:mt-4">
+            <span className="text-[10px] sm:text-xs text-[#86868B]">Cliquez pour en savoir plus</span>
             <motion.div
-              className="w-8 h-8 rounded-full bg-[#0A0A0A]/5 flex items-center justify-center"
+              className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#0A0A0A]/5 flex items-center justify-center"
               animate={{ rotate: [0, 10, -10, 0] }}
               transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
             >
-              <span className="text-sm">↻</span>
+              <span className="text-xs sm:text-sm">↻</span>
             </motion.div>
           </div>
         </div>
 
         {/* Face arrière */}
         <div
-          className="absolute inset-0 rounded-[28px] p-6 sm:p-8 flex flex-col justify-center"
+          className="absolute inset-0 rounded-[24px] sm:rounded-[28px] p-5 sm:p-8 flex flex-col justify-center overflow-y-auto"
           style={{
             backfaceVisibility: 'hidden',
             transform: 'rotateY(180deg)',
@@ -276,18 +275,18 @@ function FlipCard({ service, isFlipped, onFlip }: { service: string; isFlipped: 
         >
           {/* Gradient accent */}
           <div 
-            className="absolute top-0 left-0 right-0 h-1 rounded-t-[28px]"
+            className="absolute top-0 left-0 right-0 h-1 rounded-t-[24px] sm:rounded-t-[28px]"
             style={{
               background: 'linear-gradient(90deg, #FF6B6B 0%, #FF9F43 50%, #A855F7 100%)',
             }}
           />
           
-          <p className="text-white/90 text-sm sm:text-base leading-relaxed">
+          <p className="text-white/90 text-[13px] sm:text-base leading-relaxed">
             {data.description}
           </p>
           
-          <div className="mt-6 flex items-center gap-2">
-            <span className="text-xs text-white/50">Cliquez pour revenir</span>
+          <div className="mt-4 sm:mt-6 flex items-center gap-2">
+            <span className="text-[10px] sm:text-xs text-white/50">Cliquez pour revenir</span>
           </div>
         </div>
       </motion.div>
@@ -321,7 +320,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] flex flex-col items-center justify-center sm:justify-start sm:pt-[15vh] px-4 sm:px-6 pb-12">
+    <div className="min-h-screen bg-[#FAFAFA] flex flex-col items-center justify-center sm:justify-start sm:pt-[15vh] px-3 sm:px-6 pb-16 pt-8 sm:pt-0 overflow-x-hidden">
       <AnimatePresence mode="wait">
         {!isTransformed ? (
           // État initial : "Deepgital" au centre avec bounce
@@ -482,10 +481,10 @@ export default function HomePage() {
               <div className="grid grid-cols-2 sm:flex sm:flex-row items-center gap-2 sm:gap-6 w-full sm:w-auto">
                 {menuItems.map((item, index) => (
                   <motion.button
-                    key={item}
-                    onClick={() => handleServiceClick(item)}
-                    className={`relative text-xs sm:text-[0.9375rem] font-bold transition-all whitespace-nowrap text-center bg-transparent border-none cursor-pointer py-2.5 sm:py-1 px-3 sm:px-0 rounded-xl sm:rounded-none ${
-                      activeService === item 
+                    key={item.full}
+                    onClick={() => handleServiceClick(item.full)}
+                    className={`relative text-[11px] sm:text-[0.9375rem] font-bold transition-all text-center bg-transparent border-none cursor-pointer py-2.5 sm:py-1 px-2 sm:px-0 rounded-xl sm:rounded-none ${
+                      activeService === item.full 
                         ? 'text-[#0A0A0A] bg-white/50 sm:bg-transparent' 
                         : 'text-[#6E6E73] hover:text-[#0A0A0A]'
                     }`}
@@ -499,10 +498,12 @@ export default function HomePage() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.96 }}
                   >
-                    {item}
+                    {/* Texte court sur mobile, complet sur desktop */}
+                    <span className="sm:hidden">{item.short}</span>
+                    <span className="hidden sm:inline">{item.full}</span>
                     {/* Indicateur actif - Desktop */}
                     <AnimatePresence>
-                      {activeService === item && (
+                      {activeService === item.full && (
                         <motion.div
                           className="absolute -bottom-0.5 left-0 right-0 h-0.5 rounded-full hidden sm:block"
                           style={{
