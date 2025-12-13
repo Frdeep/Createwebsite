@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 
@@ -10,6 +10,13 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'Deepgital — Agence Web et Créative',
   description: 'Deepgital accompagne les marques ambitieuses avec l\'IA vidéo, le développement sur mesure et l\'automatisation.',
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: '#FAFAFA',
 };
 
 export default function RootLayout({
