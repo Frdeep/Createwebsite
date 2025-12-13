@@ -108,14 +108,14 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA] flex flex-col items-center justify-start pt-[12vh] sm:pt-[15vh] px-4 sm:px-6 pb-12">
+    <div className="min-h-screen bg-[#FAFAFA] flex flex-col items-center justify-center sm:justify-start sm:pt-[15vh] px-4 sm:px-6 pb-12">
       <AnimatePresence mode="wait">
         {!isTransformed ? (
           // État initial : "Deepgital" au centre avec bounce
           <motion.button
             key="title"
             onClick={() => setIsTransformed(true)}
-            className="relative cursor-pointer border-none bg-transparent focus:outline-none select-none mt-[15vh] sm:mt-[20vh]"
+            className="relative cursor-pointer border-none bg-transparent focus:outline-none select-none sm:mt-[20vh]"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ 
               opacity: 1, 
