@@ -134,22 +134,22 @@ function TypingText({ text }: { text: string }) {
   const words = text.split(' ');
   
   return (
-    <motion.p 
-      className="text-[#6E6E73] text-base sm:text-lg leading-relaxed"
+    <motion.h2 
+      className="text-[#1D1D1F] text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold leading-snug sm:leading-normal"
       initial="hidden"
       animate="visible"
     >
       {words.map((word, wordIndex) => (
-        <span key={wordIndex} className="inline-block mr-[0.3em]">
+        <span key={wordIndex} className="inline-block mr-[0.25em]">
           {word.split('').map((char, charIndex) => (
             <motion.span
               key={`${wordIndex}-${charIndex}`}
               className="inline-block"
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
-                duration: 0.3,
-                delay: (wordIndex * 5 + charIndex) * 0.02,
+                duration: 0.25,
+                delay: (wordIndex * 4 + charIndex) * 0.018,
                 ease: [0.16, 1, 0.3, 1],
               }}
             >
@@ -158,7 +158,7 @@ function TypingText({ text }: { text: string }) {
           ))}
         </span>
       ))}
-    </motion.p>
+    </motion.h2>
   );
 }
 
@@ -504,7 +504,7 @@ export default function HomePage() {
             <AnimatePresence>
               {!activeService && (
                 <motion.div
-                  className="text-center max-w-[600px] px-4"
+                  className="text-center max-w-[90%] sm:max-w-[700px] md:max-w-[850px] lg:max-w-[950px] px-2 sm:px-4"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0, y: -10 }}
