@@ -40,13 +40,13 @@ const desktopBentoConfigs: Record<string, { cols: string; cells: { colSpan: stri
     ],
   },
   'Vidéos créative': {
-    cols: 'repeat(4, 1fr)',
+    cols: 'repeat(5, 1fr)',
     cells: [
-      { colSpan: 'span 2', height: '180px' },
-      { colSpan: 'span 1', height: '380px' },
-      { colSpan: 'span 1', height: '180px' },
-      { colSpan: 'span 2', height: '180px' },
-      { colSpan: 'span 1', height: '180px' },
+      { colSpan: 'span 1', height: '320px' },
+      { colSpan: 'span 1', height: '320px' },
+      { colSpan: 'span 1', height: '320px' },
+      { colSpan: 'span 1', height: '320px' },
+      { colSpan: 'span 1', height: '320px' },
     ],
   },
 };
@@ -79,11 +79,10 @@ const mobileBentoConfigs: Record<string, { cells: { colSpan: string; height: str
   },
   'Vidéos créative': {
     cells: [
-      { colSpan: 'span 2', height: '220px' }, // Vidéo hero
-      { colSpan: 'span 1', height: '150px' }, // Thumbnails
-      { colSpan: 'span 1', height: '150px' },
-      { colSpan: 'span 1', height: '130px' },
-      { colSpan: 'span 1', height: '130px' },
+      { colSpan: 'span 1', height: '280px' }, // Format 9:16 portrait
+      { colSpan: 'span 1', height: '280px' },
+      { colSpan: 'span 1', height: '280px' },
+      { colSpan: 'span 1', height: '280px' },
     ],
   },
 };
