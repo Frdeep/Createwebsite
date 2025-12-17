@@ -7,22 +7,17 @@ import clsx from 'clsx';
 interface GlassCardProps {
   children: ReactNode;
   variant?: 'default' | 'elevated' | 'flat';
-  padding?: 'sm' | 'md' | 'lg';
+  padding?: 'sm' | 'md' | 'lg' | 'none';
   hover?: boolean;
   className?: string;
   onClick?: () => void;
 }
 
 const paddingStyles = {
-  sm: 'p-md',
-  md: 'p-lg',
-  lg: 'p-2xl',
-};
-
-const variantStyles = {
-  default: 'glass rounded-xl',
-  elevated: 'glass-elevated rounded-2xl',
-  flat: 'glass-flat rounded-lg',
+  none: '',
+  sm: 'p-4',
+  md: 'p-6',
+  lg: 'p-8',
 };
 
 export function GlassCard({ 
@@ -34,9 +29,8 @@ export function GlassCard({
   onClick,
 }: GlassCardProps) {
   const baseClasses = clsx(
-    variantStyles[variant],
+    'glass-card rounded-2xl transition-all duration-300',
     paddingStyles[padding],
-    'transition-all duration-400 ease-smooth',
     hover && 'cursor-pointer',
     className
   );
@@ -48,10 +42,9 @@ export function GlassCard({
         onClick={onClick}
         whileHover={{ 
           y: -4, 
-          scale: 1.01,
-          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.02), 0 12px 32px rgba(0, 0, 0, 0.08), 0 24px 64px rgba(0, 0, 0, 0.06)'
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
         }}
-        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
       >
         {children}
       </motion.div>

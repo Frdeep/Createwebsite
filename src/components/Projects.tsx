@@ -2,10 +2,9 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ExternalLink, Globe } from 'lucide-react';
+import { X, ExternalLink, Globe, ArrowUpRight } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
-import { Badge } from '@/components/ui/Badge';
-import { staggerContainer, staggerItem, fadeInUp, easings } from '@/lib/animations';
+import { fadeInUp, easings } from '@/lib/animations';
 import { useInView } from '@/hooks/useTransition';
 
 const projects = [
@@ -15,7 +14,8 @@ const projects = [
     category: 'E-commerce Santé',
     description: 'Programme de perte de poids personnalisé',
     url: 'https://www.miniweight.com/',
-    color: '#FF6B6B',
+    gradient: 'from-rose-400 to-orange-300',
+    iconBg: 'bg-rose-500',
   },
   {
     id: 2,
@@ -23,7 +23,8 @@ const projects = [
     category: 'E-commerce Mode',
     description: 'Vêtements et accessoires en alpaga',
     url: 'https://alpagga.com/',
-    color: '#4ECDC4',
+    gradient: 'from-emerald-400 to-cyan-300',
+    iconBg: 'bg-emerald-500',
   },
   {
     id: 3,
@@ -31,7 +32,8 @@ const projects = [
     category: 'Site Vitrine',
     description: 'Solutions industrielles internationales',
     url: 'https://amflominternational.com/',
-    color: '#45B7D1',
+    gradient: 'from-blue-400 to-indigo-300',
+    iconBg: 'bg-blue-500',
   },
   {
     id: 4,
@@ -39,7 +41,8 @@ const projects = [
     category: 'E-commerce Sport',
     description: 'Vélos électriques haute performance',
     url: 'https://www.amflowbikes.com/fr',
-    color: '#96CEB4',
+    gradient: 'from-violet-400 to-purple-300',
+    iconBg: 'bg-violet-500',
   },
   {
     id: 5,
@@ -47,7 +50,8 @@ const projects = [
     category: 'E-commerce Luxe',
     description: 'Bijoux artisanaux sur mesure',
     url: 'https://atelier-amaya.com/fr/',
-    color: '#DDA0DD',
+    gradient: 'from-pink-400 to-rose-300',
+    iconBg: 'bg-pink-500',
   },
 ];
 
@@ -57,7 +61,7 @@ export function Projects() {
 
   return (
     <>
-      <section id="projets" className="py-4xl scroll-mt-16">
+      <section id="projets" className="py-16 scroll-mt-16">
         <Container>
           <motion.div
             ref={ref}
@@ -67,55 +71,45 @@ export function Projects() {
               hidden: { opacity: 0 },
               visible: {
                 opacity: 1,
-                transition: {
-                  staggerChildren: 0.1,
-                }
+                transition: { staggerChildren: 0.1 }
               }
             }}
           >
             {/* Section Header */}
-            <motion.div className="mb-2xl" variants={fadeInUp}>
-              <span 
-                className="block text-gray-400 mb-[12px]"
-                style={{
-                  fontSize: '0.75rem',
-                  fontWeight: 600,
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                }}
-              >
-                Nos réalisations
-              </span>
-              <h2 
-                className="text-black-soft"
-                style={{
-                  fontSize: 'clamp(2rem, 4vw, 2.75rem)',
-                  fontWeight: 700,
-                  letterSpacing: '-0.02em',
-                }}
-              >
-                Sites Web
-              </h2>
-              <p className="text-gray-500 mt-md max-w-[600px]" style={{ fontSize: '1rem', lineHeight: 1.6 }}>
-                Cliquez sur un projet pour le visualiser directement
+            <motion.div className="flex items-end justify-between mb-8" variants={fadeInUp}>
+              <div>
+                <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-4">
+                  <Globe className="w-4 h-4" />
+                  Portfolio
+                </span>
+                <h2 
+                  className="text-gray-900"
+                  style={{
+                    fontSize: 'clamp(1.75rem, 4vw, 2.5rem)',
+                    fontWeight: 700,
+                    letterSpacing: '-0.02em',
+                  }}
+                >
+                  Sites Web récents
+                </h2>
+              </div>
+              <p className="hidden md:block text-sm text-gray-500 max-w-[200px] text-right">
+                Cliquez pour prévisualiser
               </p>
             </motion.div>
 
-            {/* Projects Grid */}
+            {/* Projects - Horizontal Scroll on Mobile */}
             <motion.div 
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-lg"
-              variants={staggerContainer}
+              className="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 overflow-x-auto hide-scrollbar pb-4 -mx-4 px-4 md:mx-0 md:px-0"
+              variants={fadeInUp}
             >
               {projects.map((project, index) => (
-                <motion.div 
+                <ProjectCard 
                   key={project.id}
-                  variants={staggerItem}
-                >
-                  <ProjectCard 
-                    project={project} 
-                    onClick={() => setSelectedProject(project)}
-                  />
-                </motion.div>
+                  project={project} 
+                  index={index}
+                  onClick={() => setSelectedProject(project)}
+                />
               ))}
             </motion.div>
           </motion.div>
@@ -133,77 +127,55 @@ export function Projects() {
 
 interface ProjectCardProps {
   project: typeof projects[0];
+  index: number;
   onClick: () => void;
 }
 
-function ProjectCard({ project, onClick }: ProjectCardProps) {
+function ProjectCard({ project, index, onClick }: ProjectCardProps) {
   return (
     <motion.button
       onClick={onClick}
-      className="w-full text-left group relative rounded-2xl overflow-hidden bg-white border border-gray-100 transition-all duration-300 hover:border-gray-200"
-      style={{
-        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
-      }}
-      whileHover={{ 
-        y: -4,
-        boxShadow: '0 12px 32px rgba(0, 0, 0, 0.08)',
-      }}
+      className="flex-shrink-0 w-[280px] md:w-auto text-left group"
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay: index * 0.1, duration: 0.4, ease: easings.smooth }}
+      whileHover={{ y: -4 }}
       whileTap={{ scale: 0.98 }}
-      transition={{ duration: 0.3, ease: easings.smooth }}
     >
-      {/* Preview Header with Color */}
       <div 
-        className="h-32 sm:h-40 relative flex items-center justify-center"
-        style={{ 
-          background: `linear-gradient(135deg, ${project.color}15 0%, ${project.color}30 100%)`,
+        className="glass-card rounded-3xl overflow-hidden transition-all duration-300"
+        style={{
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.06)',
         }}
       >
-        {/* Globe Icon */}
-        <div 
-          className="w-16 h-16 rounded-2xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
-          style={{ 
-            background: `linear-gradient(135deg, ${project.color}40 0%, ${project.color}60 100%)`,
-          }}
-        >
-          <Globe className="w-8 h-8" style={{ color: project.color }} />
-        </div>
-
-        {/* Hover Overlay */}
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-300 flex items-center justify-center">
-          <motion.div
-            className="opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-            initial={false}
+        {/* Gradient Header */}
+        <div className={`h-32 bg-gradient-to-br ${project.gradient} relative`}>
+          {/* Icon */}
+          <div className={`absolute bottom-4 left-4 w-12 h-12 ${project.iconBg} rounded-2xl flex items-center justify-center shadow-lg`}>
+            <Globe className="w-6 h-6 text-white" />
+          </div>
+          
+          {/* Arrow */}
+          <motion.div 
+            className="absolute top-4 right-4 w-8 h-8 bg-white/30 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+            whileHover={{ scale: 1.1 }}
           >
-            <span className="px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full text-sm font-medium text-black-soft shadow-lg">
-              Voir le site →
-            </span>
+            <ArrowUpRight className="w-4 h-4 text-white" />
           </motion.div>
         </div>
-      </div>
 
-      {/* Content */}
-      <div className="p-lg">
-        <Badge className="mb-sm">{project.category}</Badge>
-        
-        <h3 
-          className="text-black-soft mb-xs"
-          style={{
-            fontSize: '1.125rem',
-            fontWeight: 600,
-          }}
-        >
-          {project.title}
-        </h3>
-        
-        <p 
-          className="text-gray-500"
-          style={{
-            fontSize: '0.875rem',
-            lineHeight: 1.5,
-          }}
-        >
-          {project.description}
-        </p>
+        {/* Content */}
+        <div className="p-4">
+          <span className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+            {project.category}
+          </span>
+          <h3 className="text-lg font-semibold text-gray-900 mt-1">
+            {project.title}
+          </h3>
+          <p className="text-sm text-gray-500 mt-1 line-clamp-2">
+            {project.description}
+          </p>
+        </div>
       </div>
     </motion.button>
   );
@@ -219,7 +191,7 @@ function ProjectModal({ project, onClose }: ProjectModalProps) {
     <AnimatePresence>
       {project && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6"
+          className="fixed inset-0 z-50 flex items-end md:items-center justify-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -227,7 +199,7 @@ function ProjectModal({ project, onClose }: ProjectModalProps) {
         >
           {/* Backdrop */}
           <motion.div
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={onClose}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -236,64 +208,60 @@ function ProjectModal({ project, onClose }: ProjectModalProps) {
 
           {/* Modal Content */}
           <motion.div
-            className="relative w-full max-w-6xl h-[85vh] bg-white rounded-2xl overflow-hidden shadow-2xl flex flex-col"
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            className="relative w-full md:w-[90%] max-w-5xl h-[85vh] md:h-[80vh] bg-white md:rounded-3xl rounded-t-3xl overflow-hidden shadow-2xl flex flex-col"
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 100 }}
             transition={{ duration: 0.3, ease: easings.smooth }}
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-4 md:px-6 py-4 border-b border-gray-100 bg-white-soft">
-              <div className="flex items-center gap-3">
-                <div 
-                  className="w-10 h-10 rounded-xl flex items-center justify-center"
-                  style={{ 
-                    background: `linear-gradient(135deg, ${project.color}30 0%, ${project.color}50 100%)`,
-                  }}
-                >
-                  <Globe className="w-5 h-5" style={{ color: project.color }} />
+            <div className={`bg-gradient-to-r ${project.gradient} px-4 md:px-6 py-4`}>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className={`w-10 h-10 ${project.iconBg} rounded-xl flex items-center justify-center`}>
+                    <Globe className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-white">{project.title}</h3>
+                    <p className="text-sm text-white/80">{project.category}</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-semibold text-black-soft">{project.title}</h3>
-                  <p className="text-sm text-gray-500">{project.category}</p>
+
+                <div className="flex items-center gap-2">
+                  <a
+                    href={project.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-white/90 hover:text-white bg-white/20 hover:bg-white/30 rounded-xl transition-colors"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    <span className="hidden sm:inline">Ouvrir</span>
+                  </a>
+                  <button
+                    onClick={onClose}
+                    className="p-2 text-white/80 hover:text-white bg-white/20 hover:bg-white/30 rounded-xl transition-colors"
+                    aria-label="Fermer"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
                 </div>
-              </div>
-
-              <div className="flex items-center gap-2">
-                {/* Open in new tab */}
-                <a
-                  href={project.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-600 hover:text-black-soft hover:bg-gray-100 rounded-lg transition-colors"
-                >
-                  <ExternalLink className="w-4 h-4" />
-                  <span className="hidden sm:inline">Ouvrir</span>
-                </a>
-
-                {/* Close button */}
-                <button
-                  onClick={onClose}
-                  className="p-2 text-gray-500 hover:text-black-soft hover:bg-gray-100 rounded-lg transition-colors"
-                  aria-label="Fermer"
-                >
-                  <X className="w-5 h-5" />
-                </button>
               </div>
             </div>
 
             {/* URL Bar */}
             <div className="px-4 md:px-6 py-3 bg-gray-50 border-b border-gray-100">
-              <div className="flex items-center gap-3 px-4 py-2 bg-white rounded-lg border border-gray-200">
-                <div className="w-2 h-2 rounded-full bg-green-400" />
-                <span className="text-sm text-gray-600 truncate flex-1">
+              <div className="flex items-center gap-3 px-4 py-2.5 bg-white rounded-xl border border-gray-200">
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
+                </div>
+                <span className="text-sm text-gray-600 truncate flex-1 font-mono">
                   {project.url}
                 </span>
               </div>
             </div>
 
-            {/* Iframe Container */}
-            <div className="flex-1 relative bg-gray-100">
+            {/* Iframe */}
+            <div className="flex-1 relative bg-white">
               <iframe
                 src={project.url}
                 className="absolute inset-0 w-full h-full border-0"
@@ -301,16 +269,6 @@ function ProjectModal({ project, onClose }: ProjectModalProps) {
                 loading="lazy"
                 sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
               />
-              
-              {/* Loading State */}
-              <div className="absolute inset-0 flex items-center justify-center bg-gray-50 pointer-events-none opacity-0 animate-pulse">
-                <div className="flex flex-col items-center gap-3">
-                  <div 
-                    className="w-12 h-12 rounded-full border-4 border-gray-200 border-t-gray-400 animate-spin"
-                  />
-                  <span className="text-sm text-gray-500">Chargement...</span>
-                </div>
-              </div>
             </div>
 
             {/* Mobile Hint */}

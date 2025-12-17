@@ -17,7 +17,7 @@ export default function HomePage() {
   const { isLanding, isTransitioning, isRevealed, triggerTransition } = useTransition();
 
   return (
-    <>
+    <div className="bg-pattern min-h-screen">
       <AnimatePresence mode="wait">
         {isLanding && (
           <LandingTitle 
@@ -34,12 +34,11 @@ export default function HomePage() {
             <Navbar isRevealed={isRevealed} />
             
             <motion.main
-              className="min-h-screen pb-[84px] md:pb-0"
+              className="min-h-screen"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
             >
-              {/* Sections with staggered reveal */}
               <motion.div
                 initial="hidden"
                 animate={isRevealed ? "visible" : "hidden"}
@@ -48,8 +47,8 @@ export default function HomePage() {
                   visible: {
                     opacity: 1,
                     transition: {
-                      staggerChildren: 0.1,
-                      delayChildren: 0.2,
+                      staggerChildren: 0.15,
+                      delayChildren: 0.1,
                     }
                   }
                 }}
@@ -82,11 +81,10 @@ export default function HomePage() {
           </>
         )}
       </AnimatePresence>
-    </>
+    </div>
   );
 }
 
-// Section wrapper for staggered reveal
 function SectionWrapper({ children, delay }: { children: React.ReactNode; delay: number }) {
   return (
     <motion.div
@@ -94,7 +92,7 @@ function SectionWrapper({ children, delay }: { children: React.ReactNode; delay:
       animate={{ opacity: 1, y: 0 }}
       transition={{ 
         duration: 0.6, 
-        delay: 0.7 + delay,
+        delay: 0.5 + delay,
         ease: easings.smooth 
       }}
     >

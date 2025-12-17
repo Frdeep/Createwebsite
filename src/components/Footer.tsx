@@ -39,50 +39,41 @@ export function Footer() {
   const { ref, isInView } = useInView();
 
   return (
-    <footer className="border-t border-black/[0.06]">
+    <footer className="pb-8 md:pb-8">
       <Container>
         <motion.div
           ref={ref}
-          className="py-2xl flex flex-col sm:flex-row items-center justify-between gap-md"
+          className="glass-card rounded-2xl px-6 py-5"
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          variants={{
-            hidden: { opacity: 0 },
-            visible: {
-              opacity: 1,
-              transition: {
-                staggerChildren: 0.1,
-              }
-            }
-          }}
+          variants={fadeInUp}
         >
-          {/* Copyright */}
-          <motion.p 
-            className="text-gray-400"
-            style={{ fontSize: '0.875rem' }}
-            variants={fadeInUp}
-          >
-            © 2025 Deepgital
-          </motion.p>
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            {/* Logo & Copyright */}
+            <div className="flex items-center gap-3">
+              <span className="font-bold text-gray-900">Deepgital</span>
+              <span className="text-gray-300">•</span>
+              <span className="text-sm text-gray-500">© 2025</span>
+            </div>
 
-          {/* Social Links */}
-          <motion.div 
-            className="flex items-center gap-md"
-            variants={fadeInUp}
-          >
-            {socialLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-400 hover:text-black-soft transition-colors duration-200"
-                aria-label={link.name}
-              >
-                {link.icon}
-              </a>
-            ))}
-          </motion.div>
+            {/* Social Links */}
+            <div className="flex items-center gap-2">
+              {socialLinks.map((link) => (
+                <motion.a
+                  key={link.name}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-gray-900 hover:bg-gray-100 transition-colors"
+                  aria-label={link.name}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {link.icon}
+                </motion.a>
+              ))}
+            </div>
+          </div>
         </motion.div>
       </Container>
     </footer>
