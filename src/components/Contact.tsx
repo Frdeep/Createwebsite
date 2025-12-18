@@ -6,6 +6,8 @@ import { Container } from '@/components/ui/Container';
 import { fadeInUp, easings } from '@/lib/animations';
 import { useInView } from '@/hooks/useTransition';
 
+const EMAIL = 'deepgitalcommunication@gmail.com';
+
 export function Contact() {
   const { ref, isInView } = useInView();
 
@@ -65,7 +67,7 @@ export function Contact() {
               {/* Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <motion.a
-                  href="mailto:contact@deepgital.fr?subject=Prise de rendez-vous"
+                  href={`mailto:${EMAIL}?subject=Prise de rendez-vous`}
                   className="group inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl font-semibold text-gray-900 bg-white"
                   style={{ 
                     boxShadow: '0 4px 14px rgba(255, 255, 255, 0.2)',
@@ -79,7 +81,7 @@ export function Contact() {
                 </motion.a>
 
                 <motion.a
-                  href="mailto:contact@deepgital.fr"
+                  href={`mailto:${EMAIL}`}
                   className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl font-semibold text-white bg-white/10 backdrop-blur-sm border border-white/20"
                   whileHover={{ scale: 1.02, backgroundColor: 'rgba(255,255,255,0.15)' }}
                   whileTap={{ scale: 0.98 }}
@@ -91,7 +93,7 @@ export function Contact() {
 
               {/* Email */}
               <p className="mt-8 text-white/50 text-sm">
-                contact@deepgital.fr
+                {EMAIL}
               </p>
             </div>
           </motion.div>
