@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, Globe, X, AlertCircle } from 'lucide-react';
+import { ExternalLink, Globe, X, ZoomIn, Maximize2 } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { fadeInUp, easings } from '@/lib/animations';
 import { useInView } from '@/hooks/useTransition';
@@ -55,15 +55,23 @@ const projects = [
   },
 ];
 
+// Generate screenshot URL using WordPress mshots (free service)
+function getScreenshotUrl(url: string, width: number = 1280): string {
+  return `https://s.wordpress.com/mshots/v1/${encodeURIComponent(url)}?w=${width}`;
+}
+
 export function Projects() {
   const { ref, isInView } = useInView();
   const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const handleSelectProject = (project: typeof projects[0]) => {
     if (selectedProject?.id === project.id) {
       setSelectedProject(null);
+      setIsFullscreen(false);
     } else {
       setSelectedProject(project);
+      setIsFullscreen(false);
     }
   };
 
@@ -101,7 +109,7 @@ export function Projects() {
               </h2>
             </div>
             <p className="hidden md:block text-sm text-gray-500 max-w-[200px] text-right">
-              Cliquez sur un projet pour le visualiser
+              Cliquez pour prévisualiser
             </p>
           </motion.div>
 
@@ -121,7 +129,7 @@ export function Projects() {
             ))}
           </motion.div>
 
-          {/* Inline Preview */}
+          {/* Inline Preview with Screenshot */}
           <AnimatePresence mode="wait">
             {selectedProject && (
               <motion.div
@@ -147,6 +155,16 @@ export function Projects() {
                       </div>
 
                       <div className="flex items-center gap-2">
+                        {/* Fullscreen toggle */}
+                        <button
+                          onClick={() => setIsFullscreen(!isFullscreen)}
+                          className="hidden md:flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-white/20 hover:bg-white/30 rounded-xl transition-colors backdrop-blur-sm"
+                        >
+                          <Maximize2 className="w-4 h-4" />
+                          {isFullscreen ? 'Réduire' : 'Agrandir'}
+                        </button>
+                        
+                        {/* Open link */}
                         <a
                           href={selectedProject.url}
                           target="_blank"
@@ -154,11 +172,16 @@ export function Projects() {
                           className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-white/20 hover:bg-white/30 rounded-xl transition-colors backdrop-blur-sm"
                         >
                           <ExternalLink className="w-4 h-4" />
-                          <span className="hidden sm:inline">Ouvrir le site</span>
-                          <span className="sm:hidden">Ouvrir</span>
+                          <span className="hidden sm:inline">Visiter le site</span>
+                          <span className="sm:hidden">Visiter</span>
                         </a>
+                        
+                        {/* Close */}
                         <button
-                          onClick={() => setSelectedProject(null)}
+                          onClick={() => {
+                            setSelectedProject(null);
+                            setIsFullscreen(false);
+                          }}
                           className="p-2 text-white/80 hover:text-white bg-white/20 hover:bg-white/30 rounded-xl transition-colors"
                           aria-label="Fermer"
                         >
@@ -168,43 +191,63 @@ export function Projects() {
                     </div>
                   </div>
 
-                  {/* URL Bar */}
-                  <div className="px-4 md:px-6 py-3 bg-gray-50 border-b border-gray-100">
-                    <div className="flex items-center gap-3 px-4 py-2.5 bg-white rounded-xl border border-gray-200">
-                      <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
-                      <span className="text-sm text-gray-600 truncate flex-1 font-mono">
-                        {selectedProject.url}
-                      </span>
-                    </div>
+                  {/* Screenshot Preview */}
+                  <div 
+                    className={`relative bg-gray-100 transition-all duration-500 ${
+                      isFullscreen ? 'h-[80vh]' : 'h-[50vh] md:h-[60vh]'
+                    }`}
+                  >
+                    {/* Loading skeleton */}
+                    <div className="absolute inset-0 animate-pulse bg-gradient-to-br from-gray-200 to-gray-100" />
+                    
+                    {/* Screenshot image */}
+                    <motion.img
+                      key={selectedProject.url}
+                      src={getScreenshotUrl(selectedProject.url, 1280)}
+                      alt={`Capture d'écran de ${selectedProject.title}`}
+                      className="relative w-full h-full object-cover object-top"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.5 }}
+                      loading="eager"
+                    />
+
+                    {/* Overlay with zoom hint */}
+                    <a
+                      href={selectedProject.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/20 transition-colors group cursor-pointer"
+                    >
+                      <motion.div
+                        className="opacity-0 group-hover:opacity-100 transition-opacity bg-white rounded-2xl px-6 py-4 shadow-xl flex items-center gap-3"
+                        initial={false}
+                      >
+                        <ZoomIn className="w-5 h-5 text-gray-700" />
+                        <span className="font-medium text-gray-900">Voir le site en direct</span>
+                        <ExternalLink className="w-4 h-4 text-gray-500" />
+                      </motion.div>
+                    </a>
+
+                    {/* Fade at bottom */}
+                    <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white to-transparent pointer-events-none" />
                   </div>
 
-                  {/* Iframe Container */}
-                  <div className="relative bg-white" style={{ height: '70vh', minHeight: '500px' }}>
-                    <iframe
-                      src={selectedProject.url}
-                      className="absolute inset-0 w-full h-full border-0"
-                      title={`Preview de ${selectedProject.title}`}
-                      loading="eager"
-                      sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
-                      referrerPolicy="no-referrer-when-downgrade"
-                    />
-                    
-                    {/* Fallback overlay - shown if iframe might be blocked */}
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-white via-white/80 to-transparent p-6 pointer-events-none">
-                      <div className="flex items-center justify-center gap-3 pointer-events-auto">
-                        <div className="flex items-center gap-2 px-4 py-2 bg-amber-50 text-amber-700 rounded-xl text-sm">
-                          <AlertCircle className="w-4 h-4" />
-                          <span>Si le site ne s&apos;affiche pas correctement,</span>
-                          <a
-                            href={selectedProject.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="font-semibold underline hover:no-underline"
-                          >
-                            ouvrez-le dans un nouvel onglet
-                          </a>
-                        </div>
-                      </div>
+                  {/* Footer info */}
+                  <div className="px-4 md:px-6 py-4 bg-white border-t border-gray-100">
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm text-gray-500">
+                        {selectedProject.description}
+                      </p>
+                      <a
+                        href={selectedProject.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1"
+                      >
+                        {selectedProject.url.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -245,11 +288,25 @@ function ProjectCard({ project, index, isSelected, onClick }: ProjectCardProps) 
             : '0 4px 20px rgba(0, 0, 0, 0.06)',
         }}
       >
-        {/* Gradient Background */}
-        <div className={`h-24 sm:h-28 bg-gradient-to-br ${project.gradient} relative`}>
+        {/* Screenshot thumbnail */}
+        <div className={`h-24 sm:h-28 relative overflow-hidden`}>
+          {/* Gradient fallback */}
+          <div className={`absolute inset-0 bg-gradient-to-br ${project.gradient}`} />
+          
+          {/* Screenshot thumbnail */}
+          <img
+            src={getScreenshotUrl(project.url, 400)}
+            alt={project.title}
+            className="absolute inset-0 w-full h-full object-cover object-top opacity-90"
+            loading="lazy"
+          />
+          
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+          
           {/* Icon */}
-          <div className={`absolute bottom-3 left-3 w-10 h-10 ${project.iconBg} rounded-xl flex items-center justify-center shadow-lg`}>
-            <Globe className="w-5 h-5 text-white" />
+          <div className={`absolute bottom-3 left-3 w-8 h-8 ${project.iconBg} rounded-lg flex items-center justify-center shadow-lg`}>
+            <Globe className="w-4 h-4 text-white" />
           </div>
           
           {/* Selected indicator */}
