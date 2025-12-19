@@ -30,7 +30,7 @@ export default function DeepgitalLogo({
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
     >
-      {/* Icône - 3 barres obliques avec effet néon */}
+      {/* Icône - 3 barres obliques */}
       <svg 
         width={80 * iconScale} 
         height={50 * iconScale} 
@@ -44,20 +44,12 @@ export default function DeepgitalLogo({
             <stop offset="0%" stopColor="#3B82F6" />
             <stop offset="100%" stopColor="#60A5FA" />
           </linearGradient>
-          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-            <feMerge>
-              <feMergeNode in="coloredBlur"/>
-              <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-          </filter>
         </defs>
         
         {/* Barre 1 */}
         <motion.path
           d="M10 45 L25 5 L35 5 L20 45 Z"
           fill="url(#barGradient)"
-          filter="url(#glow)"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0, duration: 0.4 }}
@@ -67,7 +59,6 @@ export default function DeepgitalLogo({
         <motion.path
           d="M28 45 L43 5 L53 5 L38 45 Z"
           fill="url(#barGradient)"
-          filter="url(#glow)"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.4 }}
@@ -77,14 +68,13 @@ export default function DeepgitalLogo({
         <motion.path
           d="M46 45 L61 5 L71 5 L56 45 Z"
           fill="url(#barGradient)"
-          filter="url(#glow)"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.4 }}
         />
       </svg>
       
-      {/* Texte "Deepgital" avec dégradé cyan-magenta et effet glow */}
+      {/* Texte "Deepgital" avec dégradé cyan-magenta */}
       <motion.h1
         className={`font-bold ${textSize} tracking-tight relative`}
         style={{
@@ -92,8 +82,6 @@ export default function DeepgitalLogo({
           backgroundClip: 'text',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
-          textShadow: '0 0 40px rgba(139, 92, 246, 0.5), 0 0 80px rgba(34, 211, 238, 0.3)',
-          filter: 'drop-shadow(0 0 20px rgba(139, 92, 246, 0.4))',
         }}
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -107,11 +95,10 @@ export default function DeepgitalLogo({
         <motion.p
           className={`${subtitleSize} tracking-widest font-light`}
           style={{
-            background: 'linear-gradient(90deg, #22D3EE 0%, #60A5FA 50%, #A78BFA 100%)',
+            background: 'linear-gradient(90deg, #3B82F6 0%, #6366F1 50%, #8B5CF6 100%)',
             backgroundClip: 'text',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
-            textShadow: '0 0 20px rgba(96, 165, 250, 0.4)',
           }}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}

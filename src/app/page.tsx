@@ -153,7 +153,7 @@ function TypingText({ text }: { text: string }) {
   return (
     <motion.h2 
       key={key}
-      className="text-[#E5E5E5] text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold leading-snug sm:leading-normal"
+      className="text-[#1D1D1F] text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold leading-snug sm:leading-normal"
     >
       {words.map((word, wordIndex) => (
         <span key={wordIndex} className="inline-block mr-[0.25em]">
@@ -211,10 +211,10 @@ function FlipCard({ service, isFlipped, onFlip }: { service: string; isFlipped: 
           className="absolute inset-0 rounded-[24px] sm:rounded-[28px] p-5 sm:p-8 flex flex-col justify-between"
           style={{
             backfaceVisibility: 'hidden',
-            background: 'linear-gradient(135deg, rgba(15,15,25,0.95) 0%, rgba(20,20,35,0.9) 100%)',
+            background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%)',
             backdropFilter: 'blur(40px)',
-            border: '1px solid rgba(59,130,246,0.3)',
-            boxShadow: '0 12px 40px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(59, 130, 246, 0.1)',
+            border: '1px solid rgba(255,255,255,0.5)',
+            boxShadow: '0 12px 40px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(0, 0, 0, 0.05)',
           }}
         >
           {/* Gradient border */}
@@ -222,11 +222,11 @@ function FlipCard({ service, isFlipped, onFlip }: { service: string; isFlipped: 
             className="absolute inset-0 rounded-[24px] sm:rounded-[28px] pointer-events-none"
             style={{
               padding: '2px',
-              background: 'linear-gradient(135deg, #22D3EE 0%, #3B82F6 50%, #8B5CF6 100%)',
+              background: 'linear-gradient(135deg, #FF6B6B 0%, #FF9F43 50%, #A855F7 100%)',
               WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
               WebkitMaskComposite: 'xor',
               maskComposite: 'exclude',
-              opacity: 0.5,
+              opacity: 0.6,
             }}
           />
           
@@ -234,7 +234,7 @@ function FlipCard({ service, isFlipped, onFlip }: { service: string; isFlipped: 
             <h3 
               className="text-lg sm:text-2xl font-bold mb-3 sm:mb-4"
               style={{
-                background: 'linear-gradient(135deg, #22D3EE 0%, #3B82F6 50%, #D946EF 100%)',
+                background: 'linear-gradient(135deg, #0A0A0A 0%, #1D1D1F 100%)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -244,8 +244,8 @@ function FlipCard({ service, isFlipped, onFlip }: { service: string; isFlipped: 
             </h3>
             <ul className="space-y-1.5 sm:space-y-2">
               {data.delivers.map((item, i) => (
-                <li key={i} className="flex items-start gap-2 text-[13px] sm:text-base text-[#9CA3AF]">
-                  <span className="text-[#22D3EE] mt-0.5 flex-shrink-0">•</span>
+                <li key={i} className="flex items-start gap-2 text-[13px] sm:text-base text-[#6E6E73]">
+                  <span className="text-[#FF9F43] mt-0.5 flex-shrink-0">•</span>
                   <span>{item}</span>
                 </li>
               ))}
@@ -253,13 +253,13 @@ function FlipCard({ service, isFlipped, onFlip }: { service: string; isFlipped: 
           </div>
           
           <div className="flex items-center justify-between mt-3 sm:mt-4">
-            <span className="text-[10px] sm:text-xs text-[#6B7280]">Cliquez pour en savoir plus</span>
+            <span className="text-[10px] sm:text-xs text-[#86868B]">Cliquez pour en savoir plus</span>
             <motion.div
-              className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#22D3EE]/10 flex items-center justify-center"
+              className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#0A0A0A]/5 flex items-center justify-center"
               animate={{ rotate: [0, 10, -10, 0] }}
               transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
             >
-              <span className="text-xs sm:text-sm text-[#22D3EE]">↻</span>
+              <span className="text-xs sm:text-sm">↻</span>
             </motion.div>
           </div>
         </div>
@@ -270,16 +270,15 @@ function FlipCard({ service, isFlipped, onFlip }: { service: string; isFlipped: 
           style={{
             backfaceVisibility: 'hidden',
             transform: 'rotateY(180deg)',
-            background: 'linear-gradient(135deg, #0F0F19 0%, #141423 100%)',
-            boxShadow: '0 12px 40px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(139, 92, 246, 0.1)',
-            border: '1px solid rgba(139, 92, 246, 0.3)',
+            background: 'linear-gradient(135deg, #0A0A0A 0%, #1D1D1F 100%)',
+            boxShadow: '0 12px 40px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.1)',
           }}
         >
           {/* Gradient accent */}
           <div 
             className="absolute top-0 left-0 right-0 h-1 rounded-t-[24px] sm:rounded-t-[28px]"
             style={{
-              background: 'linear-gradient(90deg, #22D3EE 0%, #3B82F6 50%, #D946EF 100%)',
+              background: 'linear-gradient(90deg, #FF6B6B 0%, #FF9F43 50%, #A855F7 100%)',
             }}
           />
           
@@ -322,7 +321,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0A12] flex flex-col items-center justify-center sm:justify-start sm:pt-[15vh] px-3 sm:px-6 pb-16 pt-8 sm:pt-0 overflow-x-hidden">
+    <div className="min-h-screen bg-[#FAFAFA] flex flex-col items-center justify-center sm:justify-start sm:pt-[15vh] px-3 sm:px-6 pb-16 pt-8 sm:pt-0 overflow-x-hidden">
       <AnimatePresence mode="wait">
         {!isTransformed ? (
           // État initial : Logo Deepgital au centre avec animation
@@ -363,8 +362,8 @@ export default function HomePage() {
             
             {/* Indicateur de clic subtil */}
             <motion.div
-              className="mt-8 text-[#60A5FA] text-xs sm:text-sm"
-              animate={{ opacity: [0.4, 0.9, 0.4] }}
+              className="mt-8 text-[#86868B] text-xs sm:text-sm"
+              animate={{ opacity: [0.4, 0.8, 0.4] }}
               transition={{ duration: 2, repeat: Infinity }}
             >
               cliquez pour découvrir
@@ -378,14 +377,13 @@ export default function HomePage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
-            {/* Navbar liquid glass (responsive) - thème sombre */}
+            {/* Navbar liquid glass (responsive) */}
             <motion.nav
               className="relative px-5 sm:px-8 py-4 sm:py-5 rounded-[24px] sm:rounded-[28px] flex flex-col sm:flex-row items-center gap-4 sm:gap-8 navbar-gradient w-full sm:w-auto z-10"
               style={{
-                background: 'rgba(15, 15, 25, 0.8)',
+                background: 'rgba(255, 255, 255, 0.7)',
                 backdropFilter: 'blur(40px) saturate(180%)',
                 WebkitBackdropFilter: 'blur(40px) saturate(180%)',
-                border: '1px solid rgba(59, 130, 246, 0.2)',
               }}
               initial={{ 
                 opacity: 0, 
@@ -404,12 +402,12 @@ export default function HomePage() {
                 },
               }}
             >
-              {/* Bordure animée avec dégradé bleu-violet */}
+              {/* Bordure animée avec dégradé */}
               <div 
                 className="absolute inset-0 rounded-[24px] sm:rounded-[28px] pointer-events-none"
                 style={{
                   padding: '1.5px',
-                  background: 'linear-gradient(90deg, rgba(59,130,246,0.3) 0%, #22D3EE 20%, #3B82F6 40%, #8B5CF6 60%, #D946EF 80%, rgba(139,92,246,0.3) 100%)',
+                  background: 'linear-gradient(90deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.3) 20%, #FF6B6B 35%, #FF9F43 50%, #A855F7 65%, rgba(255,255,255,0.3) 80%, rgba(255,255,255,0.3) 100%)',
                   backgroundSize: '300% 100%',
                   animation: 'gradient-flow 4s ease-in-out infinite',
                   WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
@@ -418,17 +416,17 @@ export default function HomePage() {
                 }}
               />
 
-              {/* Ombre colorée qui apparaît après 7 secondes - bleu/violet */}
+              {/* Ombre colorée qui apparaît après 7 secondes */}
               <motion.div
                 className="absolute inset-0 rounded-[24px] sm:rounded-[28px] pointer-events-none -z-10"
                 style={{
-                  background: 'linear-gradient(90deg, #22D3EE 0%, #3B82F6 30%, #8B5CF6 60%, #D946EF 100%)',
+                  background: 'linear-gradient(90deg, #FF6B6B 0%, #FF9F43 50%, #A855F7 100%)',
                   backgroundSize: '200% 100%',
                   animation: 'gradient-flow 4s ease-in-out infinite',
-                  filter: 'blur(30px)',
+                  filter: 'blur(25px)',
                 }}
                 initial={{ opacity: 0 }}
-                animate={{ opacity: showGlow ? 0.5 : 0 }}
+                animate={{ opacity: showGlow ? 0.4 : 0 }}
                 transition={{ duration: 1.5, ease: 'easeOut' }}
               />
 
@@ -479,13 +477,13 @@ export default function HomePage() {
 
               {/* Séparateur - horizontal sur mobile, vertical sur desktop */}
               <motion.div
-                className="hidden sm:block w-px h-6 bg-[#3B82F6]/30"
+                className="hidden sm:block w-px h-6 bg-[#D2D2D7]"
                 initial={{ opacity: 0, scaleY: 0 }}
                 animate={{ opacity: 1, scaleY: 1 }}
                 transition={{ delay: 0.3, duration: 0.3 }}
               />
               <motion.div
-                className="block sm:hidden w-16 h-px bg-[#3B82F6]/30"
+                className="block sm:hidden w-16 h-px bg-[#D2D2D7]"
                 initial={{ opacity: 0, scaleX: 0 }}
                 animate={{ opacity: 1, scaleX: 1 }}
                 transition={{ delay: 0.3, duration: 0.3 }}
@@ -499,8 +497,8 @@ export default function HomePage() {
                     onClick={() => handleServiceClick(item.full)}
                     className={`relative text-[11px] sm:text-[0.9375rem] font-bold transition-all text-center bg-transparent border-none cursor-pointer py-2.5 sm:py-1 px-2 sm:px-0 rounded-xl sm:rounded-none ${
                       activeService === item.full 
-                        ? 'text-[#22D3EE] bg-[#22D3EE]/10 sm:bg-transparent' 
-                        : 'text-[#9CA3AF] hover:text-[#E5E5E5]'
+                        ? 'text-[#0A0A0A] bg-white/50 sm:bg-transparent' 
+                        : 'text-[#6E6E73] hover:text-[#0A0A0A]'
                     }`}
                     initial={{ opacity: 0, y: 10, filter: 'blur(4px)' }}
                     animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
@@ -521,7 +519,7 @@ export default function HomePage() {
                         <motion.div
                           className="absolute -bottom-0.5 left-0 right-0 h-0.5 rounded-full hidden sm:block"
                           style={{
-                            background: 'linear-gradient(90deg, #22D3EE, #3B82F6, #8B5CF6, #D946EF)',
+                            background: 'linear-gradient(90deg, #FF6B6B, #FF9F43, #A855F7)',
                           }}
                           initial={{ scaleX: 0, opacity: 0 }}
                           animate={{ scaleX: 1, opacity: 1 }}
@@ -575,13 +573,13 @@ export default function HomePage() {
                     ease: [0.34, 1.56, 0.64, 1],
                   }}
                 >
-                  {/* Ombre colorée derrière */}
+                  {/* Ombre noire derrière */}
                   <div 
                     className="absolute inset-0 -z-10"
                     style={{
-                      background: 'radial-gradient(ellipse at center, rgba(59,130,246,0.15) 0%, transparent 70%)',
+                      background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.12) 0%, transparent 70%)',
                       transform: 'translateY(30px) scale(0.9)',
-                      filter: 'blur(50px)',
+                      filter: 'blur(40px)',
                     }}
                   />
 
@@ -604,11 +602,11 @@ export default function HomePage() {
                       {desktopBentoConfigs[activeService].cells.map((cell, index) => (
                         <motion.div
                           key={`desktop-${activeService}-${index}`}
-                          className="rounded-[24px] bg-[#0F0F19]/80 backdrop-blur-xl border border-[#3B82F6]/20 cursor-pointer hover:border-[#3B82F6]/40 transition-colors duration-300"
+                          className="rounded-[24px] bg-white/70 backdrop-blur-xl border border-white/40 cursor-pointer hover:bg-white/90 transition-colors duration-300"
                           style={{
                             gridColumn: cell.colSpan,
                             height: cell.height,
-                            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(59, 130, 246, 0.05)',
+                            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04)',
                           }}
                           initial={{ 
                             opacity: 0, 
@@ -627,7 +625,7 @@ export default function HomePage() {
                           }}
                           whileHover={{ 
                             scale: 1.02,
-                            boxShadow: '0 12px 40px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(59, 130, 246, 0.15)',
+                            boxShadow: '0 12px 40px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.06)',
                             transition: { duration: 0.2 }
                           }}
                           whileTap={{ scale: 0.98 }}
@@ -655,11 +653,11 @@ export default function HomePage() {
                       {mobileBentoConfigs[activeService].cells.map((cell, index) => (
                         <motion.div
                           key={`mobile-${activeService}-${index}`}
-                          className="rounded-[20px] bg-[#0F0F19]/80 backdrop-blur-xl border border-[#3B82F6]/20 cursor-pointer active:border-[#3B82F6]/40 transition-colors duration-300"
+                          className="rounded-[20px] bg-white/70 backdrop-blur-xl border border-white/40 cursor-pointer active:bg-white/90 transition-colors duration-300"
                           style={{
                             gridColumn: cell.colSpan,
                             height: cell.height,
-                            boxShadow: '0 6px 24px rgba(0, 0, 0, 0.3), 0 2px 6px rgba(59, 130, 246, 0.05)',
+                            boxShadow: '0 6px 24px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04)',
                           }}
                           initial={{ 
                             opacity: 0, 
