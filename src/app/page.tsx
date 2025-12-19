@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import DeepgitalLogo from '@/components/DeepgitalLogo';
 
 const menuItems = [
   { full: 'Site web', short: 'Site web' },
@@ -323,11 +324,10 @@ export default function HomePage() {
     <div className="min-h-screen bg-[#FAFAFA] flex flex-col items-center justify-center sm:justify-start sm:pt-[15vh] px-3 sm:px-6 pb-16 pt-8 sm:pt-0 overflow-x-hidden">
       <AnimatePresence mode="wait">
         {!isTransformed ? (
-          // État initial : "Deepgital" au centre avec bounce
-          <motion.button
+          // État initial : Logo Deepgital au centre avec animation
+          <motion.div
             key="title"
-            onClick={() => setIsTransformed(true)}
-            className="relative cursor-pointer border-none bg-transparent focus:outline-none select-none sm:mt-[20vh]"
+            className="relative cursor-pointer sm:mt-[15vh] flex flex-col items-center"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ 
               opacity: 1, 
@@ -342,45 +342,33 @@ export default function HomePage() {
               opacity: { duration: 0.5 },
               scale: { duration: 0.5 },
             }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.98 }}
-            aria-label="Cliquez pour ouvrir le menu"
           >
-            <motion.span
-              className="deepgital-gradient"
-              style={{
-                fontSize: 'clamp(2.5rem, 12vw, 6rem)',
-                fontWeight: 700,
-                letterSpacing: '-0.04em',
-                display: 'inline-block',
-                background: 'linear-gradient(90deg, #0A0A0A 0%, #0A0A0A 20%, #FF6B6B 35%, #FF9F43 50%, #A855F7 65%, #0A0A0A 80%, #0A0A0A 100%)',
-                backgroundSize: '300% 100%',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                animation: 'gradient-flow 4s ease-in-out infinite',
-              }}
+            <motion.div
               animate={{ 
-                y: [0, -12, 0],
+                y: [0, -8, 0],
               }}
               transition={{
-                duration: 1.5,
+                duration: 2,
                 repeat: Infinity,
                 ease: 'easeInOut',
               }}
             >
-              Deepgital
-            </motion.span>
+              <DeepgitalLogo 
+                size="large" 
+                showSubtitle={true}
+                onClick={() => setIsTransformed(true)}
+              />
+            </motion.div>
             
             {/* Indicateur de clic subtil */}
             <motion.div
-              className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-[#86868B] text-xs sm:text-sm"
+              className="mt-8 text-[#86868B] text-xs sm:text-sm"
               animate={{ opacity: [0.4, 0.8, 0.4] }}
               transition={{ duration: 2, repeat: Infinity }}
             >
-              cliquez
+              cliquez pour découvrir
             </motion.div>
-          </motion.button>
+          </motion.div>
         ) : (
           // État transformé : Navbar + Bento Grid
           <motion.div
@@ -442,26 +430,50 @@ export default function HomePage() {
                 transition={{ duration: 1.5, ease: 'easeOut' }}
               />
 
-              {/* Logo Deepgital avec dégradé */}
-              <motion.span
-                className="font-bold whitespace-nowrap cursor-pointer"
-                style={{ 
-                  fontSize: 'clamp(1.1rem, 4vw, 1.25rem)', 
-                  letterSpacing: '-0.02em',
-                  background: 'linear-gradient(90deg, #0A0A0A 0%, #0A0A0A 20%, #FF6B6B 35%, #FF9F43 50%, #A855F7 65%, #0A0A0A 80%, #0A0A0A 100%)',
-                  backgroundSize: '300% 100%',
-                  backgroundClip: 'text',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  animation: 'gradient-flow 4s ease-in-out infinite',
-                }}
+              {/* Logo Deepgital compact dans la navbar */}
+              <motion.div
+                className="cursor-pointer flex items-center gap-2"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.2, duration: 0.4 }}
                 onClick={() => setActiveService(null)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                Deepgital
-              </motion.span>
+                {/* Mini icône */}
+                <svg 
+                  width={28} 
+                  height={18} 
+                  viewBox="0 0 80 50" 
+                  fill="none" 
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <defs>
+                    <linearGradient id="navBarGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#3B82F6" />
+                      <stop offset="100%" stopColor="#60A5FA" />
+                    </linearGradient>
+                  </defs>
+                  <path d="M10 45 L25 5 L35 5 L20 45 Z" fill="url(#navBarGradient)" />
+                  <path d="M28 45 L43 5 L53 5 L38 45 Z" fill="url(#navBarGradient)" />
+                  <path d="M46 45 L61 5 L71 5 L56 45 Z" fill="url(#navBarGradient)" />
+                </svg>
+                
+                {/* Texte Deepgital */}
+                <span
+                  className="font-bold whitespace-nowrap"
+                  style={{ 
+                    fontSize: 'clamp(1rem, 4vw, 1.15rem)', 
+                    letterSpacing: '-0.02em',
+                    background: 'linear-gradient(90deg, #22D3EE 0%, #3B82F6 30%, #8B5CF6 60%, #D946EF 100%)',
+                    backgroundClip: 'text',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                  }}
+                >
+                  Deepgital
+                </span>
+              </motion.div>
 
               {/* Séparateur - horizontal sur mobile, vertical sur desktop */}
               <motion.div
